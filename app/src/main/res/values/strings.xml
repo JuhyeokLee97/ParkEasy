@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ParkEasy</string>
+    <string name="app_desc">쉽고 빠른\n주차장 예약 서비스</string>
+    <string name="login">로그인</string>
+    <string name="find_id_password">아이디/비밀번호 찾기</string>
+    <string name="signup">회원가입</string>
 </resources>
