@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,42 +31,53 @@ import com.example.parkeasy.ui.theme.Paddings
 import com.example.parkeasy.ui.theme.ParkEasyTheme
 import com.example.parkeasy.ui.theme.underlinedText
 
+val LOGIN_SCREEN = "LOGIN_SCREEN"
 private val ICON_SIZE = 128.dp
 
 @Composable
 fun LoginScreen(
-    modifier: Modifier = Modifier
+    onLoginSuccess: () -> Unit = {}
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(
+    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+        Row(
             modifier = Modifier
-                .size(ICON_SIZE)
-                .background(Color.DarkGray)
-        )
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            Column(
+                modifier = Modifier.align(Alignment.CenterVertically),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(ICON_SIZE)
+                        .background(Color.DarkGray)
+                )
 
-        Text(
-            text = stringResource(id = R.string.app_name),
-            style = MaterialTheme.typography.displayLarge,
-        )
+                Text(
+                    text = stringResource(id = R.string.app_name),
+                    style = MaterialTheme.typography.displayLarge,
+                )
 
-        Text(
-            text = stringResource(id = R.string.app_desc),
-            style = MaterialTheme.typography.headlineMedium,
-            textAlign = TextAlign.Center
-        )
-        Spacer(
-            modifier = Modifier.height(Paddings.xExtra)
-        )
-        InputContent()
+                Text(
+                    text = stringResource(id = R.string.app_desc),
+                    style = MaterialTheme.typography.headlineMedium,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(
+                    modifier = Modifier.height(Paddings.xExtra)
+                )
+                InputContent(onLoginSuccess)
+            }
+        }
     }
 }
 
 @Composable
-fun InputContent() {
+fun InputContent(
+    onLoginSuccess: () -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .padding(
@@ -93,7 +106,7 @@ fun InputContent() {
         )
         Button(
             modifier = Modifier.fillMaxWidth(),
-            onClick = {}
+            onClick = onLoginSuccess
         ) {
             Text(
                 stringResource(id = R.string.login),
@@ -125,6 +138,6 @@ fun InputContent() {
 @Composable
 fun LoginScreenPreview() {
     ParkEasyTheme {
-        LoginScreen(modifier = Modifier.fillMaxSize())
+        LoginScreen()
     }
 }
