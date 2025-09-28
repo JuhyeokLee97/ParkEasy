@@ -13,7 +13,9 @@ import com.example.parkeasy.feature.home.HomeScreen
 import com.example.parkeasy.feature.login.LOGIN_SCREEN
 import com.example.parkeasy.feature.login.LoginScreen
 import com.example.parkeasy.ui.theme.ParkEasyTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,30 +29,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun MainNavigation() {
-    val navController = rememberNavController()
-
-    NavHost(
-        navController = navController,
-        startDestination = LOGIN_SCREEN
-    ) {
-        composable(route = LOGIN_SCREEN) {
-            ParkEasyTheme {
-                LoginScreen(
-                    onLoginSuccess = {
-                        navController.navigate(route = HOME_SCREEN) {
-                            popUpTo(LOGIN_SCREEN) { inclusive = true }
-                        }
-                    }
-                )
-            }
-        }
-
-        composable(route = HOME_SCREEN) {
-            ParkEasyTheme {
-                HomeScreen()
-            }
-        }
-    }
-}

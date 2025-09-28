@@ -31,7 +31,9 @@ import com.example.parkeasy.ui.theme.ParkEasyTheme
 val HOME_SCREEN = "HOME_SCREEN"
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onNavigateToParkEasy: () -> Unit = {}
+) {
     Scaffold(
         topBar = { HomeAppBar() },
         modifier = Modifier.fillMaxSize()
@@ -55,7 +57,7 @@ fun HomeScreen() {
                     ).fillMaxWidth()
             ) {
                 Button(
-                    onClick = {},
+                    onClick = onNavigateToParkEasy,
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(
