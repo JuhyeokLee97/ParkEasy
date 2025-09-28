@@ -35,6 +35,7 @@ val PARK_EASY_SCREEN = "PARK_EASY_SCREEN"
 @Composable
 fun AroundParkScreen(
     onNavigateToDetail: () -> Unit,
+    onBackClick: () -> Unit,
     viewModel: AroundParkViewModel = hiltViewModel()
 ) {
     val viewModelOutput = viewModel.output
@@ -43,7 +44,7 @@ fun AroundParkScreen(
         topBar = {
             CommonAppBar.TopAppBar(
                 title = stringResource(R.string.around_park_title),
-                onBackClick = {}
+                onBackClick = onBackClick
             )
         },
         modifier = Modifier.fillMaxSize()

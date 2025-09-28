@@ -13,18 +13,21 @@ import com.example.parkeasy.R
 @Composable
 fun BaseAppBar(
     title: String,
-    onBackClick: () -> Unit,
+    onBackClick: (() -> Unit)? = null,
     actions: @Composable () -> Unit = {}
 ) = TopAppBar(
     title = {
         Text(text = title)
     },
     navigationIcon = {
-        IconButton(onClick = onBackClick) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_back),
-                contentDescription = "Back"
-            )
+        onBackClick?.let {
+            IconButton(onClick = onBackClick) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_back),
+                    contentDescription = "Back"
+                )
+            }
         }
-    }
+    },
+    actions = { actions() }
 )
