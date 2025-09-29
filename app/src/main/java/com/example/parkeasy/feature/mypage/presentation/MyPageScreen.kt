@@ -39,7 +39,8 @@ val MY_PAGE_SCREEN = "MY_PAGE_SCREEN"
 
 @Composable
 fun MyPageScreen(
-    onBackClick: () -> Unit,
+    onBackClick: () -> Unit = {},
+    onNavigateToInputCarInfo: () -> Unit = {},
 ) {
     Scaffold(
         topBar = {
@@ -56,12 +57,18 @@ fun MyPageScreen(
             )
         }
     ) { innerPadding ->
-        BodyContent(modifier = Modifier.padding(innerPadding))
+        BodyContent(
+            modifier = Modifier.padding(innerPadding),
+            onNavigateToInputCarInfo = onNavigateToInputCarInfo
+        )
     }
 }
 
 @Composable
-fun BodyContent(modifier: Modifier = Modifier) {
+fun BodyContent(
+    modifier: Modifier = Modifier,
+    onNavigateToInputCarInfo: () -> Unit = {}
+) {
     Column(
         modifier = modifier.padding(horizontal = Paddings.large),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -71,22 +78,26 @@ fun BodyContent(modifier: Modifier = Modifier) {
         // Services
         Spacer(modifier = Modifier.height(Paddings.large))
         ServiceCard(
-            text = "차량 등록"
+            text = "차량 등록",
+            onClick = onNavigateToInputCarInfo
         )
 
         Spacer(modifier = Modifier.height(Paddings.large))
         ServiceCard(
-            text = "결제수단 등록"
+            text = "결제수단 등록",
+            onClick = {}
         )
 
         Spacer(modifier = Modifier.height(Paddings.large))
         ServiceCard(
-            text = "예약 내역"
+            text = "예약 내역",
+            onClick = {}
         )
 
         Spacer(modifier = Modifier.height(Paddings.large))
         ServiceCard(
-            text = "설정"
+            text = "설정",
+            onClick = {}
         )
     }
 }
@@ -125,9 +136,11 @@ private val SERVICE_BOX_SIZE = 20.dp
 fun ServiceCard(
     text: String,
     color: Color = MaterialTheme.colorScheme.primary,
+    onClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        onClick = onClick
     ) {
         Row(
             modifier = Modifier

@@ -10,6 +10,8 @@ import com.example.parkeasy.feature.detail.presentation.DETAIL_SCREEN
 import com.example.parkeasy.feature.detail.presentation.DetailScreen
 import com.example.parkeasy.feature.home.HOME_SCREEN
 import com.example.parkeasy.feature.home.HomeScreen
+import com.example.parkeasy.feature.inputcarinfo.presentation.INPUT_CAR_INFO_SCREEN
+import com.example.parkeasy.feature.inputcarinfo.presentation.InputCarInfoScreen
 import com.example.parkeasy.feature.login.LOGIN_SCREEN
 import com.example.parkeasy.feature.login.LoginScreen
 import com.example.parkeasy.feature.mypage.presentation.MY_PAGE_SCREEN
@@ -75,6 +77,19 @@ fun MainNavigation() {
         composable(route = MY_PAGE_SCREEN) {
             ParkEasyTheme {
                 MyPageScreen(
+                    onBackClick = {
+                        navController.navigateUp()
+                    },
+                    onNavigateToInputCarInfo = {
+                        navController.navigate(route = INPUT_CAR_INFO_SCREEN)
+                    }
+                )
+            }
+        }
+
+        composable(route = INPUT_CAR_INFO_SCREEN) {
+            ParkEasyTheme {
+                InputCarInfoScreen(
                     onBackClick = {
                         navController.navigateUp()
                     }
