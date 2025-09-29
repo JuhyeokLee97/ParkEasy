@@ -17,6 +17,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,10 +29,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.parkeasy.R
+import com.example.parkeasy.feature.mypage.presentation.input.MyPageInput
+import com.example.parkeasy.feature.mypage.presentation.output.MyPageOutput
 import com.example.parkeasy.ui.component.CommonAppBar
 import com.example.parkeasy.ui.component.OneButton
 import com.example.parkeasy.ui.component.ParkEasyBottomBar
+import com.example.parkeasy.ui.component.ServicePreparingDialog
 import com.example.parkeasy.ui.component.TopAppBar
 import com.example.parkeasy.ui.theme.Paddings
 import com.example.parkeasy.ui.theme.ParkEasyTheme
@@ -39,29 +46,50 @@ val MY_PAGE_SCREEN = "MY_PAGE_SCREEN"
 
 @Composable
 fun MyPageScreen(
+    viewModel: MyPageViewModel = hiltViewModel(),
     onBackClick: () -> Unit = {},
     onNavigateToInputCarInfo: () -> Unit = {},
     onNavigateToInputPaymentInfo: () -> Unit = {},
 ) {
+    val output by viewModel.output.collectAsStateWithLifecycle(
+        initialValue = MyPageOutput(
+            uiState = MyPageOutput.UiState(),
+            sideEffect = null
+        )
+    )
+
+    LaunchedEffect(output.sideEffect) {
+        when (output.sideEffect) {
+            MyPageOutput.SideEffect.NavigateToCarInfo -> onNavigateToInputCarInfo()
+            MyPageOutput.SideEffect.NavigateToPaymentInfo -> onNavigateToInputPaymentInfo()
+            MyPageOutput.SideEffect.NavigateUp -> onBackClick()
+            else -> {}
+        }
+    }
+
+    ServicePreparingDialog(
+        visible = output.uiState.showServicePreparingDialog,
+        onDismiss = { viewModel.handleInput(MyPageInput.NavigateUp) }
+    )
+
     Scaffold(
         topBar = {
             CommonAppBar.TopAppBar(
                 title = stringResource(R.string.my_page_title),
-                onBackClick = onBackClick
+                onBackClick = { viewModel.handleInput(MyPageInput.NavigateUp) }
             )
         },
         bottomBar = {
             ParkEasyBottomBar.OneButton(
                 modifier = Modifier.padding(horizontal = Paddings.large),
                 text = stringResource(R.string.logout),
-                onClick = {}
+                onClick = { viewModel.handleInput(MyPageInput.Logout) }
             )
         }
     ) { innerPadding ->
         BodyContent(
             modifier = Modifier.padding(innerPadding),
-            onNavigateToInputCarInfo = onNavigateToInputCarInfo,
-            onNavigateToInputPaymentInfo = onNavigateToInputPaymentInfo
+            onInputEvent = viewModel::handleInput,
         )
     }
 }
@@ -69,8 +97,7 @@ fun MyPageScreen(
 @Composable
 fun BodyContent(
     modifier: Modifier = Modifier,
-    onNavigateToInputCarInfo: () -> Unit = {},
-    onNavigateToInputPaymentInfo: () -> Unit = {}
+    onInputEvent: (MyPageInput) -> Unit,
 ) {
     Column(
         modifier = modifier.padding(horizontal = Paddings.large),
@@ -82,25 +109,25 @@ fun BodyContent(
         Spacer(modifier = Modifier.height(Paddings.large))
         ServiceCard(
             text = "차량 등록",
-            onClick = onNavigateToInputCarInfo
+            onClick = { onInputEvent(MyPageInput.NavigateToCarInfo) }
         )
 
         Spacer(modifier = Modifier.height(Paddings.large))
         ServiceCard(
             text = "결제수단 등록",
-            onClick = onNavigateToInputPaymentInfo
+            onClick = { onInputEvent(MyPageInput.NavigateToPaymentInfo) }
         )
 
         Spacer(modifier = Modifier.height(Paddings.large))
         ServiceCard(
             text = "예약 내역",
-            onClick = {}
+            onClick = { onInputEvent(MyPageInput.NavigateToReservationHistory) }
         )
 
         Spacer(modifier = Modifier.height(Paddings.large))
         ServiceCard(
             text = "설정",
-            onClick = {}
+            onClick = { onInputEvent(MyPageInput.NavigateToSetting) }
         )
     }
 }
