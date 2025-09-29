@@ -29,8 +29,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.parkeasy.R
 import com.example.parkeasy.ui.component.CommonAppBar
+import com.example.parkeasy.ui.component.OneButton
+import com.example.parkeasy.ui.component.ParkEasyBottomBar
 import com.example.parkeasy.ui.component.TopAppBar
 import com.example.parkeasy.ui.theme.Paddings
+import com.example.parkeasy.ui.theme.ParkEasyTheme
 
 val MY_PAGE_SCREEN = "MY_PAGE_SCREEN"
 
@@ -43,6 +46,13 @@ fun MyPageScreen(
             CommonAppBar.TopAppBar(
                 title = stringResource(R.string.my_page_title),
                 onBackClick = onBackClick
+            )
+        },
+        bottomBar = {
+            ParkEasyBottomBar.OneButton(
+                modifier = Modifier.padding(horizontal = Paddings.large),
+                text = stringResource(R.string.logout),
+                onClick = {}
             )
         }
     ) { innerPadding ->
@@ -153,14 +163,7 @@ fun ServiceCard(
 @Preview
 @Composable
 fun MyPageScreenPreview() {
-    Scaffold(
-        topBar = {
-            CommonAppBar.TopAppBar(
-                title = stringResource(R.string.my_page_title),
-                onBackClick = {}
-            )
-        }
-    ) { innerPadding ->
-        BodyContent(modifier = Modifier.padding(innerPadding))
+    ParkEasyTheme {
+        MyPageScreen { }
     }
 }
