@@ -18,4 +18,16 @@
     <string name="car_brand">차량 브랜드</string>
     <string name="car_model">차량 모델</string>
     <string name="car_color">차량 색상</string>
+    <string name="input_payment_info_title">결제수단 등록</string>
+    <string name="card_type">카드 타입</string>
+    <string name="credit_card">신용카드</string>
+    <string name="check_card">체크카드</string>
+    <string name="card_number">카드번호</string>
+    <string name="card_number_placeholder">1234-5678-9012-3456</string>
+    <string name="card_expiry_date">유효기간</string>
+    <string name="card_expiry_date_placeholder">MM/YY</string>
+    <string name="card_cvc">CVC</string>
+    <string name="card_cvc_placeholder">123</string>
+    <string name="card_company">카드사</string>
+    <string name="card_company_placeholder">카드사를 입력하세요.</string>
 </resources>

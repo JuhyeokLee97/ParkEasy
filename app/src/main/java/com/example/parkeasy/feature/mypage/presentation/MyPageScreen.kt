@@ -41,6 +41,7 @@ val MY_PAGE_SCREEN = "MY_PAGE_SCREEN"
 fun MyPageScreen(
     onBackClick: () -> Unit = {},
     onNavigateToInputCarInfo: () -> Unit = {},
+    onNavigateToInputPaymentInfo: () -> Unit = {},
 ) {
     Scaffold(
         topBar = {
@@ -59,7 +60,8 @@ fun MyPageScreen(
     ) { innerPadding ->
         BodyContent(
             modifier = Modifier.padding(innerPadding),
-            onNavigateToInputCarInfo = onNavigateToInputCarInfo
+            onNavigateToInputCarInfo = onNavigateToInputCarInfo,
+            onNavigateToInputPaymentInfo = onNavigateToInputPaymentInfo
         )
     }
 }
@@ -67,7 +69,8 @@ fun MyPageScreen(
 @Composable
 fun BodyContent(
     modifier: Modifier = Modifier,
-    onNavigateToInputCarInfo: () -> Unit = {}
+    onNavigateToInputCarInfo: () -> Unit = {},
+    onNavigateToInputPaymentInfo: () -> Unit = {}
 ) {
     Column(
         modifier = modifier.padding(horizontal = Paddings.large),
@@ -85,7 +88,7 @@ fun BodyContent(
         Spacer(modifier = Modifier.height(Paddings.large))
         ServiceCard(
             text = "결제수단 등록",
-            onClick = {}
+            onClick = onNavigateToInputPaymentInfo
         )
 
         Spacer(modifier = Modifier.height(Paddings.large))
