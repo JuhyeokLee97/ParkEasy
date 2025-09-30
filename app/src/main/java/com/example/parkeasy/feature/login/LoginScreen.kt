@@ -1,10 +1,10 @@
 package com.example.parkeasy.feature.login
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,19 +14,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.parkeasy.R
+import com.example.parkeasy.ui.component.ServicePreparingDialog
 import com.example.parkeasy.ui.theme.Paddings
 import com.example.parkeasy.ui.theme.ParkEasyTheme
 import com.example.parkeasy.ui.theme.underlinedText
@@ -36,8 +42,28 @@ private val ICON_SIZE = 128.dp
 
 @Composable
 fun LoginScreen(
-    onLoginSuccess: () -> Unit = {}
+    viewModel: LoginViewModel = hiltViewModel(),
+    onNavigateToHome: () -> Unit = {}
 ) {
+    val uiOutput by viewModel.uiOutput.collectAsStateWithLifecycle(
+        initialValue = LoginOutput()
+    )
+    val sideEffect by viewModel.sideEffect.collectAsStateWithLifecycle(
+        initialValue = null
+    )
+
+    LaunchedEffect(sideEffect) {
+        when (sideEffect) {
+            is LoginOutput.SideEffect.NavigateToHome -> onNavigateToHome()
+            null -> {}
+        }
+    }
+
+    ServicePreparingDialog(
+        visible = uiOutput.uiState.showServicePreparingDialog,
+        onDismiss = { viewModel.handleInput(LoginInput.DismissDialog) }
+    )
+
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Row(
             modifier = Modifier
@@ -49,34 +75,44 @@ fun LoginScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(ICON_SIZE)
-                        .background(Color.DarkGray)
-                )
+                LogoSection()
 
-                Text(
-                    text = stringResource(id = R.string.app_name),
-                    style = MaterialTheme.typography.displayLarge,
-                )
+                Spacer(modifier = Modifier.height(Paddings.xExtra))
 
-                Text(
-                    text = stringResource(id = R.string.app_desc),
-                    style = MaterialTheme.typography.headlineMedium,
-                    textAlign = TextAlign.Center
+                InputContent(
+                    formState = uiOutput.formState,
+                    uiState = uiOutput.uiState,
+                    onInputEvent = viewModel::handleInput
                 )
-                Spacer(
-                    modifier = Modifier.height(Paddings.xExtra)
-                )
-                InputContent(onLoginSuccess)
             }
         }
     }
 }
 
 @Composable
+private fun ColumnScope.LogoSection() {
+    Image(
+        painter = painterResource(R.drawable.ic_app_logo),
+        contentDescription = "App Logo",
+        modifier = Modifier.size(ICON_SIZE)
+    )
+    Text(
+        text = stringResource(id = R.string.app_name),
+        style = MaterialTheme.typography.displayLarge,
+    )
+
+    Text(
+        text = stringResource(id = R.string.app_desc),
+        style = MaterialTheme.typography.headlineMedium,
+        textAlign = TextAlign.Center
+    )
+}
+
+@Composable
 fun InputContent(
-    onLoginSuccess: () -> Unit = {}
+    formState: LoginOutput.FormState,
+    uiState: LoginOutput.UiState,
+    onInputEvent: (LoginInput) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -89,36 +125,47 @@ fun InputContent(
     ) {
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = "",
-            onValueChange = {},
-            label = { Text("아이디") }
+            value = formState.id,
+            onValueChange = {
+                onInputEvent(LoginInput.UpdateId(it))
+            },
+            label = { Text(text = stringResource(R.string.id_label)) }
         )
 
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = "",
-            onValueChange = {},
-            label = { Text("비밀번호") }
+            value = formState.password,
+            onValueChange = {
+                onInputEvent(LoginInput.UpdatePassword(it))
+            },
+            label = { Text(text = stringResource(R.string.pw_label)) }
         )
 
-        Spacer(
-            modifier = Modifier.height(Paddings.large)
-        )
+        Spacer(modifier = Modifier.height(Paddings.large))
+        // 로그인 버튼
         Button(
             modifier = Modifier.fillMaxWidth(),
-            onClick = onLoginSuccess
+            onClick = { onInputEvent(LoginInput.LoginClicked) }
         ) {
-            Text(
-                stringResource(id = R.string.login),
-                style = MaterialTheme.typography.labelLarge
-            )
+            if (uiState.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(16.dp),
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            } else {
+                Text(
+                    stringResource(id = R.string.login),
+                    style = MaterialTheme.typography.labelLarge
+                )
+            }
         }
         Spacer(
             modifier = Modifier.height(Paddings.large)
         )
+        // 하단 링크들
         Text(
             modifier = Modifier.clickable {
-
+                onInputEvent(LoginInput.FindIdPasswordClicked)
             },
             text = stringResource(id = R.string.find_id_password),
             style = MaterialTheme.typography.underlinedText,
@@ -126,7 +173,7 @@ fun InputContent(
         Spacer(modifier = Modifier.width(Paddings.xExtra))
         Text(
             modifier = Modifier.clickable {
-
+                onInputEvent(LoginInput.SignupClicked)
             },
             text = stringResource(id = R.string.signup),
             style = MaterialTheme.typography.underlinedText,

@@ -31,7 +31,7 @@ fun MainNavigation() {
         composable(route = LOGIN_SCREEN) {
             ParkEasyTheme {
                 LoginScreen(
-                    onLoginSuccess = {
+                    onNavigateToHome = {
                         navController.navigate(route = HOME_SCREEN) {
                             popUpTo(LOGIN_SCREEN) { inclusive = true }
                         }
