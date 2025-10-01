@@ -32,11 +32,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.parkeasy.R
-import com.example.parkeasy.feature.detail.data.DetailUiState
+import com.example.parkeasy.feature.detail.data.DetailInput
 import com.example.parkeasy.feature.detail.data.ParkingLotDetailEntity
+import com.example.parkeasy.feature.detail.data.ParkingLotState
 import com.example.parkeasy.ui.component.CommonAppBar
 import com.example.parkeasy.ui.component.OneButton
 import com.example.parkeasy.ui.component.ParkEasyBottomBar
+import com.example.parkeasy.ui.component.ServicePreparingDialog
 import com.example.parkeasy.ui.component.TopAppBar
 import com.example.parkeasy.ui.theme.Paddings
 import com.example.parkeasy.ui.theme.ParkEasyTheme
@@ -52,6 +54,11 @@ fun DetailScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    ServicePreparingDialog(
+        visible = uiState.showServicePreparingDialog,
+        onDismiss = { viewModel.handleInput(DetailInput.DismissDialog) }
+    )
+
     ParkEasyTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -62,29 +69,29 @@ fun DetailScreen(
                 )
             },
             bottomBar = {
-                if (uiState is DetailUiState.Success) {
+                if (uiState.parkingLotState is ParkingLotState.Success) {
                     ParkEasyBottomBar.OneButton(
                         modifier = Modifier.padding(Paddings.large),
                         text = stringResource(R.string.detail_reservation),
-                        onClick = {},
+                        onClick = { viewModel.handleInput(DetailInput.ReservationClicked) },
                         color = MaterialTheme.colorScheme.primary
                     )
                 }
             }
         ) { innerPadding ->
-            when (val state = uiState) {
-                is DetailUiState.Loading -> {
+            when (val state = uiState.parkingLotState) {
+                is ParkingLotState.Loading -> {
                     LoadingContent(modifier = Modifier.padding(innerPadding))
                 }
 
-                is DetailUiState.Success -> {
+                is ParkingLotState.Success -> {
                     BodyContent(
                         parkingLot = state.parkingLot,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
 
-                is DetailUiState.Error -> {
+                is ParkingLotState.Error -> {
                     ErrorContent(
                         message = state.message,
                         onRetry = { viewModel.retry() },
