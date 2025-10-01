@@ -14,13 +14,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.parkeasy.R
+import com.example.parkeasy.feature.home.data.HomeInput
+import com.example.parkeasy.feature.home.presentation.HomeViewModel
 import com.example.parkeasy.ui.component.CommonAppBar
+import com.example.parkeasy.ui.component.ServicePreparingDialog
 import com.example.parkeasy.ui.component.TopAppBarWithAction
 import com.example.parkeasy.ui.theme.Paddings
 import com.example.parkeasy.ui.theme.ParkEasyTheme
@@ -29,9 +35,17 @@ val HOME_SCREEN = "HOME_SCREEN"
 
 @Composable
 fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToParkEasy: () -> Unit = {},
     onNavigateToMyPage: () -> Unit = {}
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    ServicePreparingDialog(
+        visible = uiState.showServicePreparingDialog,
+        onDismiss = { viewModel.handleInput(HomeInput.DismissDialog) }
+    )
+
     Scaffold(
         topBar = {
             CommonAppBar.TopAppBarWithAction(
@@ -74,11 +88,13 @@ fun HomeScreen(
                 }
                 Spacer(modifier = Modifier.width(Paddings.large))
                 Button(
-                    onClick = {},
+                    onClick = {
+                        viewModel.handleInput(HomeInput.FavoriteClicked)
+                    },
                     modifier = Modifier.weight(1f),
                 ) {
                     Text(
-                        text = "즐겨찾기",
+                        text = stringResource(R.string.favorite),
                         style = MaterialTheme.typography.labelLarge,
                         textAlign = TextAlign.Center
                     )
