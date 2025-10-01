@@ -10,4 +10,7 @@ class ParkRepositoryImpl @Inject constructor() : ParkRepository {
         return mockParkingLots
     }
 
+    override suspend fun getParkingLot(id: Int): ParkingLot? {
+        return mockParkingLots.find { it.id == id }
+    }
 }

@@ -1,13 +1,16 @@
 package com.example.parkeasy
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.parkeasy.feature.around.presentation.AROUND_PARK_SCREEN
 import com.example.parkeasy.feature.around.presentation.AroundParkScreen
-import com.example.parkeasy.feature.around.presentation.PARK_EASY_SCREEN
 import com.example.parkeasy.feature.detail.presentation.DETAIL_SCREEN
 import com.example.parkeasy.feature.detail.presentation.DetailScreen
+import com.example.parkeasy.feature.detail.presentation.DetailViewModel
 import com.example.parkeasy.feature.home.HOME_SCREEN
 import com.example.parkeasy.feature.home.HomeScreen
 import com.example.parkeasy.feature.inputcarinfo.presentation.INPUT_CAR_INFO_SCREEN
@@ -44,7 +47,7 @@ fun MainNavigation() {
             ParkEasyTheme {
                 HomeScreen(
                     onNavigateToParkEasy = {
-                        navController.navigate(route = PARK_EASY_SCREEN)
+                        navController.navigate(route = AROUND_PARK_SCREEN)
                     },
                     onNavigateToMyPage = {
                         navController.navigate(route = MY_PAGE_SCREEN)
@@ -53,11 +56,11 @@ fun MainNavigation() {
             }
         }
 
-        composable(route = PARK_EASY_SCREEN) {
+        composable(route = AROUND_PARK_SCREEN) {
             ParkEasyTheme {
                 AroundParkScreen(
-                    onNavigateToDetail = {
-                        navController.navigate(route = DETAIL_SCREEN)
+                    onNavigateToDetail = { parkingLotId ->
+                        navController.navigate(route = "$DETAIL_SCREEN/$parkingLotId")
                     },
                     onBackClick = {
                         navController.navigateUp()
@@ -66,7 +69,15 @@ fun MainNavigation() {
             }
         }
 
-        composable(route = DETAIL_SCREEN) {
+        composable(
+            route = "$DETAIL_SCREEN/{${DetailViewModel.PARKING_LOT_ID}}",
+            arguments = listOf(
+                navArgument(name = DetailViewModel.PARKING_LOT_ID) {
+                    type = NavType.IntType
+                    defaultValue = -1
+                }
+            )
+        ) {
             ParkEasyTheme {
                 DetailScreen(
                     onBackClick = {

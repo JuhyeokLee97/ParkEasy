@@ -30,11 +30,11 @@ import com.example.parkeasy.ui.component.TopAppBar
 import com.example.parkeasy.ui.theme.Paddings
 import com.example.parkeasy.ui.theme.ParkEasyTheme
 
-val PARK_EASY_SCREEN = "PARK_EASY_SCREEN"
+val AROUND_PARK_SCREEN = "AROUND_PARK_SCREEN"
 
 @Composable
 fun AroundParkScreen(
-    onNavigateToDetail: () -> Unit,
+    onNavigateToDetail: (Int) -> Unit,
     onBackClick: () -> Unit,
     viewModel: AroundParkViewModel = hiltViewModel()
 ) {
@@ -55,8 +55,9 @@ fun AroundParkScreen(
         ) {
             BodyContent(
                 parkingLotsState = viewModelOutput.parkingLotsState.collectAsState().value,
-                modifier = Modifier.padding(innerPadding),
-                onNavigateToDetail = onNavigateToDetail,
+                onNavigateToDetail = { parkingLotId ->
+                    onNavigateToDetail(parkingLotId)
+                },
             )
         }
     }
@@ -64,9 +65,8 @@ fun AroundParkScreen(
 
 @Composable
 fun BodyContent(
-    modifier: Modifier,
     parkingLotsState: ParkingLotState,
-    onNavigateToDetail: () -> Unit = {}
+    onNavigateToDetail: (Int) -> Unit = {}
 ) {
     when (parkingLotsState) {
         is ParkingLotState.Loading -> {
@@ -84,7 +84,9 @@ fun BodyContent(
                 items(parkingLotsState.parkingLots, key = { it.id }) {
                     ParkItem(
                         park = it,
-                        onNavigateToDetail = onNavigateToDetail
+                        onNavigateToDetail = { parkingLotId ->
+                            onNavigateToDetail(parkingLotId)
+                        }
                     )
                 }
             }
@@ -95,7 +97,7 @@ fun BodyContent(
 @Composable
 fun ParkItem(
     park: ParkingLotEntity,
-    onNavigateToDetail: () -> Unit = {}
+    onNavigateToDetail: (Int) -> Unit = {}
 ) {
     Card(
         modifier = Modifier
@@ -104,7 +106,7 @@ fun ParkItem(
                 vertical = Paddings.small,
                 horizontal = Paddings.xLarge
             ),
-        onClick = onNavigateToDetail
+        onClick = { onNavigateToDetail(park.id) }
     ) {
         Column(
             modifier = Modifier.padding(horizontal = Paddings.large)

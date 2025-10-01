@@ -1,6 +1,7 @@
 package com.example.parkeasy.feature.detail.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -10,12 +11,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,7 +29,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.parkeasy.R
+import com.example.parkeasy.feature.detail.data.DetailUiState
+import com.example.parkeasy.feature.detail.data.ParkingLotDetailEntity
 import com.example.parkeasy.ui.component.CommonAppBar
 import com.example.parkeasy.ui.component.OneButton
 import com.example.parkeasy.ui.component.ParkEasyBottomBar
@@ -39,8 +47,11 @@ private val ThumbnailHeight = 150.dp
 
 @Composable
 fun DetailScreen(
-    onBackClick: () -> Unit
+    viewModel: DetailViewModel = hiltViewModel(),
+    onBackClick: () -> Unit = {}
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     ParkEasyTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -51,23 +62,80 @@ fun DetailScreen(
                 )
             },
             bottomBar = {
-                ParkEasyBottomBar.OneButton(
-                    modifier = Modifier.padding(Paddings.large),
-                    text = stringResource(R.string.detail_reservation),
-                    onClick = {},
-                    color = MaterialTheme.colorScheme.primary
-                )
+                if (uiState is DetailUiState.Success) {
+                    ParkEasyBottomBar.OneButton(
+                        modifier = Modifier.padding(Paddings.large),
+                        text = stringResource(R.string.detail_reservation),
+                        onClick = {},
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
         ) { innerPadding ->
-            BodyContent(
-                modifier = Modifier.padding(innerPadding)
-            )
+            when (val state = uiState) {
+                is DetailUiState.Loading -> {
+                    LoadingContent(modifier = Modifier.padding(innerPadding))
+                }
+
+                is DetailUiState.Success -> {
+                    BodyContent(
+                        parkingLot = state.parkingLot,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+
+                is DetailUiState.Error -> {
+                    ErrorContent(
+                        message = state.message,
+                        onRetry = { viewModel.retry() },
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+            }
         }
     }
 }
 
 @Composable
-fun BodyContent(modifier: Modifier = Modifier) {
+fun LoadingContent(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@Composable
+fun ErrorContent(
+    message: String,
+    onRetry: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(Paddings.large),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = message,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.error
+        )
+        Spacer(modifier = Modifier.height(Paddings.large))
+        Button(onClick = onRetry) {
+            Text(text = "다시 시도")
+        }
+    }
+}
+
+@Composable
+fun BodyContent(
+    parkingLot: ParkingLotDetailEntity,
+    modifier: Modifier = Modifier
+) {
     Column(modifier = modifier) {
         Box(
             modifier = Modifier
@@ -76,14 +144,17 @@ fun BodyContent(modifier: Modifier = Modifier) {
                 .background(Color.Blue)
         )
         Spacer(modifier = Modifier.height(Paddings.large))
-        Info()
+        Info(parkingLot = parkingLot)
         Spacer(modifier = Modifier.height(Paddings.large))
-        AvailablePlaceCard()
+        AvailablePlaceCard(availablePlace = parkingLot.availablePlace)
     }
 }
 
 @Composable
-fun ColumnScope.Info(modifier: Modifier = Modifier) {
+fun ColumnScope.Info(
+    parkingLot: ParkingLotDetailEntity,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier
             .padding(horizontal = Paddings.xLarge)
@@ -91,15 +162,15 @@ fun ColumnScope.Info(modifier: Modifier = Modifier) {
             .align(Alignment.CenterHorizontally)
     ) {
         Text(
-            text = "강남역 지하주차장",
+            text = parkingLot.name,
             style = MaterialTheme.typography.titleLarge
         )
         Spacer(modifier = Modifier.height(Paddings.medium))
-        InfoText("주소", "서울시 강남구 강남대로 123")
+        InfoText("주소", parkingLot.address)
         Spacer(modifier = Modifier.height(Paddings.medium))
-        InfoText("요금", "시간당 2,000원")
+        InfoText("요금", "시간당 ${parkingLot.pricePerHour}원")
         Spacer(modifier = Modifier.height(Paddings.medium))
-        InfoText("운영시간", "24시간 운영")
+        InfoText("운영시간", parkingLot.availableTime)
         Spacer(modifier = Modifier.height(Paddings.medium))
         InfoText("총 주차면", "100면")
     }
@@ -129,7 +200,9 @@ fun InfoText(key: String, value: String) {
 }
 
 @Composable
-fun ColumnScope.AvailablePlaceCard() {
+fun ColumnScope.AvailablePlaceCard(
+    availablePlace: Int
+) {
     Card(
         modifier = Modifier
             .align(Alignment.CenterHorizontally)
@@ -143,7 +216,7 @@ fun ColumnScope.AvailablePlaceCard() {
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(top = Paddings.large),
-            text = "45",
+            text = availablePlace.toString(),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.displayLarge
         )
@@ -156,22 +229,23 @@ fun ColumnScope.AvailablePlaceCard() {
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleLarge
         )
-
     }
 }
 
 @Preview
 @Composable
 fun BodyContentPreview() {
+    val previewParkingLot = ParkingLotDetailEntity(
+        id = 1,
+        name = "강남역 지하주차장",
+        pricePerHour = 2000,
+        address = "서울시 강남구 강남대로 396",
+        availableTime = "00:00 ~ 24:00",
+        availablePlace = 45
+    )
     ParkEasyTheme {
-        BodyContent()
-    }
-}
-
-@Preview
-@Composable
-fun DetailScreenPreview() {
-    ParkEasyTheme {
-        DetailScreen({})
+        BodyContent(
+            parkingLot = previewParkingLot
+        )
     }
 }

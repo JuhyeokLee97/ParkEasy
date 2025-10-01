@@ -5,4 +5,5 @@ import com.example.parkeasy.repository.data.ParkingLot
 interface ParkRepository {
 
     suspend fun getParkingLots(): List<ParkingLot>
+    suspend fun getParkingLot(id: Int): ParkingLot?
 }
