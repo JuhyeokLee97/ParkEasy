@@ -1,11 +1,11 @@
-package com.example.parkeasy.feature.arround
+package com.example.parkeasy.feature.around.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.parkeasy.feature.arround.data.ParkingLotState
-import com.example.parkeasy.feature.arround.data.input.AroundParkViewModelInput
-import com.example.parkeasy.feature.arround.data.output.AroundParkViewModelOutput
-import com.example.parkeasy.feature.arround.domain.usecase.GetAroundParkingLotsUseCase
+import com.example.parkeasy.feature.around.data.ParkingLotState
+import com.example.parkeasy.feature.around.data.input.AroundParkViewModelInput
+import com.example.parkeasy.feature.around.data.output.AroundParkViewModelOutput
+import com.example.parkeasy.feature.around.domain.usecase.GetAroundParkingLotsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

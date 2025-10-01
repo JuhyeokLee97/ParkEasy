@@ -1,6 +1,6 @@
-package com.example.parkeasy.feature.arround.data.output
+package com.example.parkeasy.feature.around.data.output
 
-import com.example.parkeasy.feature.arround.data.ParkingLotState
+import com.example.parkeasy.feature.around.data.ParkingLotState
 import kotlinx.coroutines.flow.StateFlow
 
 interface AroundParkViewModelOutput {

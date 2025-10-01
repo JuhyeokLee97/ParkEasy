@@ -1,4 +1,4 @@
-package com.example.parkeasy.feature.arround
+package com.example.parkeasy.feature.around.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,8 +23,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.parkeasy.R
-import com.example.parkeasy.feature.arround.data.ParkingLotEntity
-import com.example.parkeasy.feature.arround.data.ParkingLotState
+import com.example.parkeasy.feature.around.data.ParkingLotEntity
+import com.example.parkeasy.feature.around.data.ParkingLotState
 import com.example.parkeasy.ui.component.CommonAppBar
 import com.example.parkeasy.ui.component.TopAppBar
 import com.example.parkeasy.ui.theme.Paddings

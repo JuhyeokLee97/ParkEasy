@@ -1,6 +1,6 @@
-package com.example.parkeasy.feature.arround.data.mapper
+package com.example.parkeasy.feature.around.data.mapper
 
-import com.example.parkeasy.feature.arround.data.ParkingLotEntity
+import com.example.parkeasy.feature.around.data.ParkingLotEntity
 import com.example.parkeasy.repository.data.ParkingLot
 
 fun ParkingLot.toParkingLotEntity(): ParkingLotEntity {

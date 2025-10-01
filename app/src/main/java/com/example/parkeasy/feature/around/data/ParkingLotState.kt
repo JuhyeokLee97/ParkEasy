@@ -1,4 +1,4 @@
-package com.example.parkeasy.feature.arround.data
+package com.example.parkeasy.feature.around.data
 
 sealed class ParkingLotState {
     object Loading : ParkingLotState()

@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.parkeasy.feature.arround.AroundParkScreen
-import com.example.parkeasy.feature.arround.PARK_EASY_SCREEN
+import com.example.parkeasy.feature.around.presentation.AroundParkScreen
+import com.example.parkeasy.feature.around.presentation.PARK_EASY_SCREEN
 import com.example.parkeasy.feature.detail.presentation.DETAIL_SCREEN
 import com.example.parkeasy.feature.detail.presentation.DetailScreen
 import com.example.parkeasy.feature.home.HOME_SCREEN

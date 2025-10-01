@@ -1,7 +1,7 @@
-package com.example.parkeasy.feature.arround.domain.usecase
+package com.example.parkeasy.feature.around.domain.usecase
 
-import com.example.parkeasy.feature.arround.data.ParkingLotEntity
-import com.example.parkeasy.feature.arround.data.mapper.toParkingLotEntity
+import com.example.parkeasy.feature.around.data.ParkingLotEntity
+import com.example.parkeasy.feature.around.data.mapper.toParkingLotEntity
 import com.example.parkeasy.repository.ParkRepository
 import javax.inject.Inject
 
