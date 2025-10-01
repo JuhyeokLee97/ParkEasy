@@ -98,6 +98,11 @@ fun MainNavigation() {
                     },
                     onNavigateToInputPaymentInfo = {
                         navController.navigate(route = INPUT_PAYMENT_INFO_SCREEN)
+                    },
+                    onNavigateToLogin = {
+                        navController.navigate(route = LOGIN_SCREEN) {
+                            popUpTo(0) { inclusive = true }
+                        }
                     }
                 )
             }

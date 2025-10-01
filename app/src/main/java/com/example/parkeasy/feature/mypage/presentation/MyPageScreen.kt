@@ -50,6 +50,7 @@ fun MyPageScreen(
     onBackClick: () -> Unit = {},
     onNavigateToInputCarInfo: () -> Unit = {},
     onNavigateToInputPaymentInfo: () -> Unit = {},
+    onNavigateToLogin: () -> Unit = {},
 ) {
     val output by viewModel.output.collectAsStateWithLifecycle(
         initialValue = MyPageOutput(
@@ -63,6 +64,7 @@ fun MyPageScreen(
             MyPageOutput.SideEffect.NavigateToCarInfo -> onNavigateToInputCarInfo()
             MyPageOutput.SideEffect.NavigateToPaymentInfo -> onNavigateToInputPaymentInfo()
             MyPageOutput.SideEffect.NavigateUp -> onBackClick()
+            MyPageOutput.SideEffect.NavigateToLogin -> onNavigateToLogin()
             else -> {}
         }
     }

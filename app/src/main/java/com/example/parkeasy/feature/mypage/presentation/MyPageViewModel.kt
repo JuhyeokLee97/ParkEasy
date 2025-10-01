@@ -66,7 +66,7 @@ class MyPageViewModel @Inject constructor() : ViewModel() {
 
     private fun handleLogout() {
         viewModelScope.launch {
-            _sideEffect.emit(MyPageOutput.SideEffect.NavigateUp)
+            _sideEffect.emit(MyPageOutput.SideEffect.NavigateToLogin)
         }
     }
 
