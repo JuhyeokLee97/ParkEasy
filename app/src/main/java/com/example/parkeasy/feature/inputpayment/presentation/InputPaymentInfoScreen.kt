@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -19,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -201,6 +203,7 @@ fun CardNumber(
         key = stringResource(R.string.card_number),
         value = value,
         onValueChange = onValueChange,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         placeholder = { Text(text = stringResource(R.string.card_number_placeholder)) }
     )
 }
@@ -231,6 +234,7 @@ fun CardCvc(
         key = stringResource(R.string.card_cvc),
         value = value,
         onValueChange = onValueChange,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         placeholder = { Text(text = stringResource(R.string.card_cvc_placeholder)) }
     )
 }
@@ -256,7 +260,8 @@ fun CardInfoItem(
     key: String,
     value: String,
     onValueChange: (String) -> Unit = {},
-    placeholder: @Composable () -> Unit = {}
+    placeholder: @Composable () -> Unit = {},
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -270,6 +275,7 @@ fun CardInfoItem(
             modifier = Modifier
                 .padding(top = Paddings.small)
                 .fillMaxWidth(),
+            keyboardOptions = keyboardOptions,
             value = value,
             onValueChange = onValueChange,
             placeholder = placeholder
