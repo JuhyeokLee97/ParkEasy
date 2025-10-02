@@ -30,6 +30,12 @@ import com.example.parkeasy.ui.component.ServicePreparingDialog
 import com.example.parkeasy.ui.component.TopAppBarWithAction
 import com.example.parkeasy.ui.theme.Paddings
 import com.example.parkeasy.ui.theme.ParkEasyTheme
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
+import com.google.maps.android.compose.rememberCameraPositionState
 
 val HOME_SCREEN = "HOME_SCREEN"
 
@@ -66,7 +72,9 @@ fun HomeScreen(
                     .fillMaxWidth()
                     .weight(1f)
                     .background(color = MaterialTheme.colorScheme.secondary),
-            )
+            ) {
+                ParkEasyMap()
+            }
 
             Row(
                 modifier = Modifier
@@ -102,7 +110,24 @@ fun HomeScreen(
             }
         }
     }
+}
 
+@Composable
+fun ParkEasyMap() {
+    val korea = LatLng(37.566535, 126.9779692)
+    val cameraPositionState = rememberCameraPositionState {
+        position = CameraPosition.fromLatLngZoom(korea, 10f)
+    }
+    GoogleMap(
+        modifier = Modifier.fillMaxSize(),
+        cameraPositionState = cameraPositionState
+    ) {
+        Marker(
+            state = MarkerState(position = korea),
+            title = "Korea",
+            snippet = "Marker in Korea"
+        )
+    }
 }
 
 @Preview
