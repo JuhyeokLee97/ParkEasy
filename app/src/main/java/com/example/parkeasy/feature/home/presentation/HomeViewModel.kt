@@ -3,6 +3,7 @@ package com.example.parkeasy.feature.home.presentation
 import androidx.lifecycle.ViewModel
 import com.example.parkeasy.feature.home.data.HomeInput
 import com.example.parkeasy.feature.home.data.HomeUiState
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +19,8 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         when (input) {
             is HomeInput.FavoriteClicked -> showServicePreparingDialog()
             is HomeInput.DismissDialog -> dismissDialog()
+            is HomeInput.UpdatedLocation -> updateLocation(input.location)
+            is HomeInput.LocationPermissionGranted -> onLocationPermissionGranted()
         }
     }
 
@@ -33,4 +36,16 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         )
     }
 
+    private fun updateLocation(location: LatLng) {
+        _uiState.value = _uiState.value.copy(
+            currentLocation = location,
+            isLocationLoading = false
+        )
+    }
+
+    private fun onLocationPermissionGranted() {
+        _uiState.value = _uiState.value.copy(
+            isLocationLoading = true
+        )
+    }
 }
