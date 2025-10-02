@@ -6,5 +6,6 @@ data class ParkingLotDetailEntity(
     val pricePerHour: Int,
     val address: String,
     val availableTime: String,
-    val availablePlace: Int
+    val availablePlace: Int,
+    val thumbnailUrl: String,
 )

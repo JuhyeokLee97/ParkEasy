@@ -7,7 +7,8 @@ data class ParkingLot(
     val address: String,
     val availableStartTime: String, // 07:00
     val availableEndTime: String, // 23:00
-    val availablePlace: Int
+    val availablePlace: Int,
+    val imageUrl: String
 )
 
 val mockParkingLots = listOf(
@@ -18,7 +19,8 @@ val mockParkingLots = listOf(
         address = "서울시 강남구 강남대로 396",
         availableStartTime = "00:00",
         availableEndTime = "24:00",
-        availablePlace = 45
+        availablePlace = 45,
+        imageUrl = "https://cdn.sisaweek.com/news/photo/202101/140644_133244_4240.jpg"
     ),
     ParkingLot(
         id = 2,
@@ -27,7 +29,8 @@ val mockParkingLots = listOf(
         address = "서울시 강남구 영동대로 513",
         availableStartTime = "06:00",
         availableEndTime = "22:00",
-        availablePlace = 23
+        availablePlace = 23,
+        imageUrl = "https://img.segye.com/content/image/2018/08/02/20180802552368.jpg"
     ),
     ParkingLot(
         id = 3,
@@ -36,7 +39,8 @@ val mockParkingLots = listOf(
         address = "서울시 강남구 테헤란로 415",
         availableStartTime = "00:00",
         availableEndTime = "24:00",
-        availablePlace = 78
+        availablePlace = 78,
+        imageUrl = "https://cdn.iusm.co.kr/news/photo/202303/1010340_559368_555.jpg"
     ),
     ParkingLot(
         id = 4,
@@ -45,7 +49,8 @@ val mockParkingLots = listOf(
         address = "서울시 송파구 올림픽로 300",
         availableStartTime = "06:00",
         availableEndTime = "24:00",
-        availablePlace = 12
+        availablePlace = 12,
+        imageUrl = "https://cdn.crowdpic.net/detail-thumb/thumb_d_0DC64B74FCF4C343EA9AEDF80621B90F.jpg"
     ),
     ParkingLot(
         id = 5,
@@ -54,7 +59,8 @@ val mockParkingLots = listOf(
         address = "서울시 강남구 논현로 842",
         availableStartTime = "07:00",
         availableEndTime = "22:00",
-        availablePlace = 67
+        availablePlace = 67,
+        imageUrl = "https://img.khan.co.kr/news/2022/04/12/2022041301001416000129921.jpg"
     ),
     ParkingLot(
         id = 6,
@@ -63,7 +69,8 @@ val mockParkingLots = listOf(
         address = "서울시 강남구 압구정로 317",
         availableStartTime = "08:00",
         availableEndTime = "20:00",
-        availablePlace = 5
+        availablePlace = 5,
+        imageUrl = "https://img.danawa.com/cp_images/service/99/4282699/bf05b8c2.jpg"
     ),
     ParkingLot(
         id = 7,
@@ -72,7 +79,8 @@ val mockParkingLots = listOf(
         address = "서울시 강남구 봉은사로 524",
         availableStartTime = "05:30",
         availableEndTime = "23:30",
-        availablePlace = 34
+        availablePlace = 34,
+        imageUrl = "https://img.hankyung.com/photo/201806/01.16942523.1.jpg"
     ),
     ParkingLot(
         id = 8,
@@ -81,7 +89,8 @@ val mockParkingLots = listOf(
         address = "서울시 서초구 신반포로 343",
         availableStartTime = "06:00",
         availableEndTime = "21:00",
-        availablePlace = 89
+        availablePlace = 89,
+        imageUrl = "https://cdn.crowdpic.net/detail-thumb/thumb_d_760427244AE7509772468259E7B953E9.jpg"
     ),
     ParkingLot(
         id = 9,
@@ -90,7 +99,8 @@ val mockParkingLots = listOf(
         address = "서울시 강남구 테헤란로 152",
         availableStartTime = "07:00",
         availableEndTime = "19:00",
-        availablePlace = 3
+        availablePlace = 3,
+        imageUrl = "https://pimg.mk.co.kr/news/cms/202408/13/news-p.v1.20240813.ccf95826664342eb8886452c021c67b7_P1.jpg"
     ),
     ParkingLot(
         id = 10,
@@ -99,6 +109,7 @@ val mockParkingLots = listOf(
         address = "서울시 강남구 가로수길 29",
         availableStartTime = "09:00",
         availableEndTime = "22:00",
-        availablePlace = 52
+        availablePlace = 52,
+        imageUrl = "https://www.pmnews.co.kr/imgdata/pmnews_co_kr/202204/2022042857181225.jpg"
     )
 )

@@ -9,5 +9,6 @@ fun ParkingLot.toParkingLotDetailEntity() = ParkingLotDetailEntity(
     pricePerHour = pricePerHour,
     address = address,
     availableTime = "$availableStartTime ~ $availableEndTime",
-    availablePlace = availablePlace
+    availablePlace = availablePlace,
+    thumbnailUrl = imageUrl,
 )
