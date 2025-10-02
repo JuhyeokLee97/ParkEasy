@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.example.parkeasy.R
+import com.example.parkeasy.feature.around.data.ParkingLotEntity
 import com.example.parkeasy.ui.theme.Paddings
 import com.google.android.gms.maps.model.LatLng
 
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.model.LatLng
 fun HomeContent(
     currentLocation: LatLng?,
     isLocationLoading: Boolean,
+    nearbyParkingLots: List<ParkingLotEntity>,
     onNavigateToParkEasy: () -> Unit,
     onFavoriteClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -34,6 +36,7 @@ fun HomeContent(
         MapSection(
             currentLocation = currentLocation,
             isLocationLoading = isLocationLoading,
+            nearbyParkingLots = nearbyParkingLots,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)

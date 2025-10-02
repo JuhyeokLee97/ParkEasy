@@ -10,6 +10,8 @@ fun ParkingLot.toParkingLotEntity(): ParkingLotEntity {
         pricePerHour = pricePerHour,
         address = address,
         availableTime = "$availableStartTime ~ $availableEndTime",
-        availablePlace = availablePlace
+        availablePlace = availablePlace,
+        latitude = latitude,  // 추가
+        longitude = longitude  // 추가
     )
 }

@@ -1,6 +1,8 @@
 package com.example.parkeasy.feature.home.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.parkeasy.feature.around.domain.usecase.GetAroundParkingLotsUseCase
 import com.example.parkeasy.feature.home.data.HomeInput
 import com.example.parkeasy.feature.home.data.HomeUiState
 import com.google.android.gms.maps.model.LatLng
@@ -8,10 +10,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val getParkingLotsUseCase: GetAroundParkingLotsUseCase
+) : ViewModel() {
     private val _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
@@ -19,7 +24,10 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         when (input) {
             is HomeInput.FavoriteClicked -> showServicePreparingDialog()
             is HomeInput.DismissDialog -> dismissDialog()
-            is HomeInput.UpdatedLocation -> updateLocation(input.location)
+            is HomeInput.UpdatedLocation -> {
+                updateLocation(input.location)
+                loadNearbyParkingLots(input.location)
+            }
             is HomeInput.LocationPermissionGranted -> onLocationPermissionGranted()
         }
     }
@@ -41,6 +49,19 @@ class HomeViewModel @Inject constructor() : ViewModel() {
             currentLocation = location,
             isLocationLoading = false
         )
+    }
+
+    private fun loadNearbyParkingLots(location: LatLng) {
+        viewModelScope.launch {
+            val parkingLots = getParkingLotsUseCase(
+                latitude = location.latitude,
+                longitude = location.longitude
+            )
+
+            _uiState.value = _uiState.value.copy(
+                nearbyParkingLots = parkingLots
+            )
+        }
     }
 
     private fun onLocationPermissionGranted() {

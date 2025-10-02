@@ -160,7 +160,9 @@ fun ParkItemPreview() {
                 pricePerHour = 1000,
                 address = "서울시 강남구 강남대로 123",
                 availableTime = "주차 가능 시간: 06:00 ~ 23:00",
-                availablePlace = 10
+                availablePlace = 10,
+                latitude = 37.566535,
+                longitude = 126.9779
             )
         )
     }

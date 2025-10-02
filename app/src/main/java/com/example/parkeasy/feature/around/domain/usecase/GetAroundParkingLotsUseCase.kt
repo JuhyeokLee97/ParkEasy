@@ -4,5 +4,8 @@ import com.example.parkeasy.feature.around.data.ParkingLotEntity
 
 interface GetAroundParkingLotsUseCase {
 
-    suspend operator fun invoke(): List<ParkingLotEntity>
+    suspend operator fun invoke(
+        latitude: Double? = null,
+        longitude: Double? = null,
+    ): List<ParkingLotEntity>
 }

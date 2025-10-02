@@ -7,17 +7,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.example.parkeasy.feature.around.data.ParkingLotEntity
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
 fun MapSection(
     currentLocation: LatLng?,
     isLocationLoading: Boolean,
+    nearbyParkingLots: List<ParkingLotEntity> = emptyList(),
     modifier: Modifier = Modifier
 ) {
     val defaultLocation = LatLng(37.566535, 126.9779)
@@ -46,7 +50,13 @@ fun MapSection(
                 zoomControlsEnabled = true
             )
         ) {
-
+            nearbyParkingLots.forEach { parkingLot ->
+                Marker(
+                    state = MarkerState(position = parkingLot.toLatLng()),
+                    title = parkingLot.name,
+                    snippet = "남은 자리 ${parkingLot.availablePlace}"
+                )
+            }
         }
 
         if (isLocationLoading) {

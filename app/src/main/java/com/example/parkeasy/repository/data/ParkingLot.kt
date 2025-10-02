@@ -1,5 +1,9 @@
 package com.example.parkeasy.repository.data
 
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.random.Random
+
 data class ParkingLot(
     val id: Int,
     val name: String,
@@ -8,9 +12,50 @@ data class ParkingLot(
     val availableStartTime: String, // 07:00
     val availableEndTime: String, // 23:00
     val availablePlace: Int,
-    val imageUrl: String
+    val imageUrl: String,
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0
 )
 
+fun generateParkingLotsNearby(
+    centerLat: Double,
+    centerLng: Double,
+    radiusInKm: Double = 5.0
+) : List<ParkingLot> {
+    return mockParkingLots.mapIndexed { index, parkingLot ->
+        val (lat, lng) = generateRandomLocationWithinRadius(
+            centerLat = centerLat,
+            centerLng = centerLng,
+            radiusInKm = radiusInKm,
+        )
+        parkingLot.copy(
+            latitude = lat,
+            longitude = lng
+        )
+    }
+}
+
+private fun generateRandomLocationWithinRadius(
+    centerLat: Double,
+    centerLng: Double,
+    radiusInKm: Double,
+): Pair<Double, Double> {
+    val earthRadiusKm = 6371.0
+
+    // 랜덤 거리 (0 ~ radiusInKm)
+    val randomDistance = Random.nextDouble() * radiusInKm
+    // 랜덤 방향 (0 ~ 360도)
+    val randomBearing = Random.nextDouble() * 2 * Math.PI
+    // 위도 변화량 계산
+    val deltaLat = (randomDistance / earthRadiusKm) * (180.0 / Math.PI)
+    // 경도 변화량 계산 (위도에 따라 보정)
+    val deltaLng = (randomDistance / earthRadiusKm) * (180.0 / Math.PI) / cos(Math.toRadians(centerLat))
+
+    val newLat = centerLat + deltaLat * sin(randomBearing)
+    val newLng = centerLng + deltaLng * cos(randomBearing)
+
+    return Pair(newLat, newLng)
+}
 val mockParkingLots = listOf(
     ParkingLot(
         id = 1,

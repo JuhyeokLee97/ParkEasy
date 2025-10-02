@@ -9,9 +9,16 @@ class GetAroundParkingLotsUseCaseImpl @Inject constructor(
     private val parkRepository: ParkRepository
 ) : GetAroundParkingLotsUseCase {
 
-    override suspend fun invoke(): List<ParkingLotEntity> {
-        return parkRepository.getParkingLots().map {
-            it.toParkingLotEntity()
+    override suspend fun invoke(
+        latitude: Double?,
+        longitude: Double?,
+    ): List<ParkingLotEntity> {
+        val parkingLots = if (latitude != null && longitude != null) {
+            parkRepository.getParkingLotNearby(latitude, longitude)
+        } else {
+            parkRepository.getParkingLots()
         }
+
+        return parkingLots.map { it.toParkingLotEntity() }
     }
 }

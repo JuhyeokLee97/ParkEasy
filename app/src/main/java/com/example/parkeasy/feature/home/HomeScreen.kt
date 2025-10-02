@@ -68,6 +68,7 @@ fun HomeScreen(
         HomeContent(
             currentLocation = uiState.currentLocation,
             isLocationLoading = uiState.isLocationLoading,
+            nearbyParkingLots = uiState.nearbyParkingLots,
             onNavigateToParkEasy = onNavigateToParkEasy,
             onFavoriteClick = {
                 viewModel.handleInput(HomeInput.FavoriteClicked)
