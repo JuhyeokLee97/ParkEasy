@@ -2,6 +2,8 @@ package com.example.parkeasy.feature.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.parkeasy.repository.AuthRepository
+import com.example.parkeasy.repository.data.AuthResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +15,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor() : ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
 
     private val _formState: MutableStateFlow<LoginOutput.FormState> = MutableStateFlow(LoginOutput.FormState())
     private val _uiState: MutableStateFlow<LoginOutput.UiState> = MutableStateFlow(LoginOutput.UiState())
@@ -32,6 +36,7 @@ class LoginViewModel @Inject constructor() : ViewModel() {
             )
         )
     }
+
     fun handleInput(input: LoginInput) {
         when (input) {
             is LoginInput.UpdateId -> updateId(input.id)
@@ -56,14 +61,27 @@ class LoginViewModel @Inject constructor() : ViewModel() {
         if (currentForm.id.isBlank() || currentForm.password.isBlank()) return
 
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true)
-            try {
-                delay(500)
-                _sideEffect.emit(LoginOutput.SideEffect.NavigateToHome)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            } finally {
-                _uiState.value = _uiState.value.copy(isLoading = false)
+            _uiState.value = _uiState.value.copy(
+                isLoading = true,
+                errorMessage = null
+            )
+            when (val result = authRepository.signIn(
+                email = currentForm.id,
+                password = currentForm.password
+            )) {
+                is AuthResult.Success -> {
+                    _uiState.value = _uiState.value.copy(
+                        isLoading = false,
+                        errorMessage = null
+                    )
+                    _sideEffect.emit(LoginOutput.SideEffect.NavigateToHome)
+                }
+                is AuthResult.Error -> {
+                    _uiState.value = _uiState.value.copy(
+                        isLoading = false,
+                        errorMessage = result.message
+                    )
+                }
             }
         }
     }

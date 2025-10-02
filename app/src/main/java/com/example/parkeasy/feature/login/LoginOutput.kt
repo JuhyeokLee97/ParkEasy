@@ -13,7 +13,8 @@ data class LoginOutput(
     data class UiState(
         val showServicePreparingDialog: Boolean = false,
         val isLoading: Boolean = false,
-        val isLoginEnabled: Boolean = false
+        val isLoginEnabled: Boolean = false,
+        val errorMessage: String? = null,
     )
 
     sealed class SideEffect {
