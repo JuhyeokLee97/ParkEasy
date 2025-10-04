@@ -46,7 +46,8 @@ private val ICON_SIZE = 128.dp
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
-    onNavigateToHome: () -> Unit = {}
+    onNavigateToHome: () -> Unit = {},
+    onNavigateToSignUp: () -> Unit = {},
 ) {
     val uiOutput by viewModel.uiOutput.collectAsStateWithLifecycle(
         initialValue = LoginOutput()
@@ -59,6 +60,7 @@ fun LoginScreen(
     LaunchedEffect(sideEffect) {
         when (sideEffect) {
             is LoginOutput.SideEffect.NavigateToHome -> onNavigateToHome()
+            is LoginOutput.SideEffect.NavigateToSignUp -> onNavigateToSignUp()
             null -> {}
         }
     }

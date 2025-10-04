@@ -21,6 +21,8 @@ import com.example.parkeasy.feature.login.LOGIN_SCREEN
 import com.example.parkeasy.feature.login.LoginScreen
 import com.example.parkeasy.feature.mypage.presentation.MY_PAGE_SCREEN
 import com.example.parkeasy.feature.mypage.presentation.MyPageScreen
+import com.example.parkeasy.feature.signup.SIGNUP_SCREEN
+import com.example.parkeasy.feature.signup.SignupScreen
 import com.example.parkeasy.ui.theme.ParkEasyTheme
 
 @Composable
@@ -38,6 +40,9 @@ fun MainNavigation() {
                         navController.navigate(route = HOME_SCREEN) {
                             popUpTo(LOGIN_SCREEN) { inclusive = true }
                         }
+                    },
+                    onNavigateToSignUp = {
+                        navController.navigate(route = SIGNUP_SCREEN)
                     }
                 )
             }
@@ -123,6 +128,18 @@ fun MainNavigation() {
                 InputPaymentInfoScreen(
                     onBackClick = {
                         navController.navigateUp()
+                    }
+                )
+            }
+        }
+
+        composable(route = SIGNUP_SCREEN) {
+            ParkEasyTheme {
+                SignupScreen(
+                    onNavigateUp = {
+                        navController.navigate(route = LOGIN_SCREEN) {
+                            popUpTo(0) { inclusive = true }
+                        }
                     }
                 )
             }

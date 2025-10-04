@@ -19,5 +19,6 @@ data class LoginOutput(
 
     sealed class SideEffect {
         object NavigateToHome : SideEffect()
+        object NavigateToSignUp : SideEffect()
     }
 }

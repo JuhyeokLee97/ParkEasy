@@ -43,7 +43,7 @@ class LoginViewModel @Inject constructor(
             is LoginInput.UpdatePassword -> updatePassword(input.password)
             is LoginInput.LoginClicked -> handleLogin()
             is LoginInput.FindIdPasswordClicked -> showServicePreparing()
-            is LoginInput.SignupClicked -> showServicePreparing()
+            is LoginInput.SignupClicked -> handleSignupClicked()
             is LoginInput.DismissDialog -> dismissDialog()
         }
     }
@@ -86,6 +86,11 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    private fun handleSignupClicked() {
+        viewModelScope.launch {
+            _sideEffect.emit(LoginOutput.SideEffect.NavigateToSignUp)
+        }
+    }
     private fun showServicePreparing() {
         _uiState.value = _uiState.value.copy(showServicePreparingDialog = true)
     }
