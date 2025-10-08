@@ -7,7 +7,8 @@ data class MyPageOutput(
 ) {
 
     data class UiState(
-        val showServicePreparingDialog: Boolean = false
+        val showServicePreparingDialog: Boolean = false,
+        val userEmail: String? = null,
     )
 
     sealed class SideEffect {

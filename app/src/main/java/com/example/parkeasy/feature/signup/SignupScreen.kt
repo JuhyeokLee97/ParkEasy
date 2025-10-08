@@ -86,7 +86,7 @@ fun BodyContent(
 
     Column(
         modifier = modifier
-            .padding(horizontal = Paddings.medium),
+            .padding(horizontal = Paddings.xExtra),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -98,6 +98,7 @@ fun BodyContent(
             pwValue = pw.value,
             onPwValueChange = { pw.value = it }
         )
+        Spacer(modifier = Modifier.height(Paddings.large))
         SignUpButton(id = id.value, pw = pw.value) {
             onSignup(id.value, pw.value)
         }

@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -92,6 +93,7 @@ fun MyPageScreen(
         BodyContent(
             modifier = Modifier.padding(innerPadding),
             onInputEvent = viewModel::handleInput,
+            userEmail = output.uiState.userEmail
         )
     }
 }
@@ -100,13 +102,14 @@ fun MyPageScreen(
 fun BodyContent(
     modifier: Modifier = Modifier,
     onInputEvent: (MyPageInput) -> Unit,
+    userEmail: String? = null
 ) {
     Column(
         modifier = modifier.padding(horizontal = Paddings.large),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Profile Info
-        ProfileInfoCard()
+        ProfileInfoCard(userEmail = userEmail)
         // Services
         Spacer(modifier = Modifier.height(Paddings.large))
         ServiceCard(
@@ -138,7 +141,7 @@ private val PROFILE_INFO_HEIGHT = 350.dp
 private val PROFILE_IMAGE_SIZE = 200.dp
 
 @Composable
-fun ProfileInfoCard() {
+fun ProfileInfoCard(userEmail: String?) {
     Card(elevation = CardDefaults.elevatedCardElevation(10.dp)) {
         Column(
             modifier = Modifier
@@ -155,8 +158,10 @@ fun ProfileInfoCard() {
 
             Spacer(modifier = Modifier.height(Paddings.large))
             Text(
-                text = "사용자 계정",
+                text = userEmail ?: "사용자 계정",
                 style = MaterialTheme.typography.headlineSmall,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
         }
     }

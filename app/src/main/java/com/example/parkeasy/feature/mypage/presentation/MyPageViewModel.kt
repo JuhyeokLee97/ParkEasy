@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.parkeasy.feature.mypage.presentation.input.MyPageInput
 import com.example.parkeasy.feature.mypage.presentation.output.MyPageOutput
+import com.example.parkeasy.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -14,9 +15,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MyPageViewModel @Inject constructor() : ViewModel() {
+class MyPageViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<MyPageOutput.UiState> = MutableStateFlow(MyPageOutput.UiState())
+    private val _uiState: MutableStateFlow<MyPageOutput.UiState> = MutableStateFlow(
+        MyPageOutput.UiState(
+            userEmail = authRepository.getCurrentUserEmail()
+        )
+    )
     private val _sideEffect: MutableSharedFlow<MyPageOutput.SideEffect?> = MutableSharedFlow()
 
     val output: Flow<MyPageOutput> = combine(
@@ -66,6 +73,7 @@ class MyPageViewModel @Inject constructor() : ViewModel() {
 
     private fun handleLogout() {
         viewModelScope.launch {
+            authRepository.signOut()
             _sideEffect.emit(MyPageOutput.SideEffect.NavigateToLogin)
         }
     }
