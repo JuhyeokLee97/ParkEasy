@@ -8,3 +8,11 @@ sealed interface Result<out T> {
     ) : Result<Nothing>
     object Loading: Result<Nothing>
 }
+
+inline fun <T> Result<T>.getOrElse(onError: (Result.Error) -> Nothing): T {
+    return when(this) {
+        is Result.Success -> data
+        is Result.Error -> onError(this)
+        is Result.Loading -> throw IllegalStateException("Result is still Loading")
+    }
+}

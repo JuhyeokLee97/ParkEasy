@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.android)
-    alias(libs.plugins.google.services)
     id("kotlin-kapt")
 }
 
@@ -48,7 +47,6 @@ dependencies {
     implementation(libs.androidx.material3)
 
     // Map
-    implementation(libs.play.services.location)
     implementation(libs.google.map)
 
     // Hilt

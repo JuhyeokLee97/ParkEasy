@@ -2,7 +2,8 @@ package com.example.parkeasy.feature.home.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.parkeasy.core.domain.model.Result
+import com.example.parkeasy.core.domain.model.getOrElse
+import com.example.parkeasy.core.domain.repository.LocationRepository
 import com.example.parkeasy.core.domain.usecase.GetParkingLotsNearbyUseCase
 import com.example.parkeasy.feature.home.model.DialogState
 import com.example.parkeasy.feature.home.model.HomeUIState
@@ -18,10 +19,43 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val locationRepository: LocationRepository,
     private val getParkingLotsNearbyUseCase: GetParkingLotsNearbyUseCase,
 ) : ViewModel() {
     private val _uiState: MutableStateFlow<HomeUIState> = MutableStateFlow(HomeUIState.Loading)
     val uiState: StateFlow<HomeUIState> = _uiState.asStateFlow()
+
+    fun loadNearbyParkingLots(radiusInKm: Double = 5.0) {
+        viewModelScope.launch {
+            _uiState.value = HomeUIState.Loading
+
+            val location = locationRepository.getCurrentLocation()
+                .getOrElse { error ->
+                    _uiState.value = HomeUIState.Error(
+                        exception = error.exception,
+                        message = error.message ?: "",
+                    )
+                    return@launch
+                }
+
+            val parkingLots = getParkingLotsNearbyUseCase(
+                latitude = location.latitude,
+                longitude = location.longitude,
+                radiusInKm = radiusInKm,
+            ).getOrElse { error ->
+                _uiState.value = HomeUIState.Error(
+                    exception = error.exception,
+                    message = error.message ?: "주변 주차장을 가져오는데 실패했습니다.",
+                )
+                return@launch
+            }
+
+            _uiState.value = HomeUIState.Success(
+                parkingLots = parkingLots,
+                currentLocation = location,
+            )
+        }
+    }
 
     private fun showServicePreparingDialog() {
         _uiState.update { currentState ->
@@ -46,32 +80,5 @@ class HomeViewModel @Inject constructor(
 
     private fun updateLocation(location: LatLng) {
 
-    }
-
-    fun loadNearbyParkingLots(location: LatLng) {
-        val radiusInKm = 1.0
-        viewModelScope.launch {
-            _uiState.value = HomeUIState.Loading
-
-            val result = getParkingLotsNearbyUseCase(
-                latitude = location.latitude,
-                longitude = location.longitude,
-                radiusInKm = radiusInKm,
-            )
-
-            when (result) {
-                is Result.Success -> {
-                    _uiState.value = HomeUIState.Success(parkingLots = result.data)
-                }
-
-                is Result.Error -> {
-                    // TODO Implement Error Screen
-                }
-
-                is Result.Loading -> {
-                    _uiState.value = HomeUIState.Loading
-                }
-            }
-        }
     }
 }

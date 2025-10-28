@@ -1,13 +1,13 @@
 package com.example.parkeasy.feature.home.model
 
+import com.example.parkeasy.core.domain.model.Location
 import com.example.parkeasy.core.domain.model.ParkingLot
-import com.google.android.gms.maps.model.LatLng
 
 interface HomeUIState {
 
     object Loading : HomeUIState
     data class Success(
-        val currentLocation: LatLng? = null,
+        val currentLocation: Location,
         val parkingLots: List<ParkingLot>,
         val dialogState: DialogState = DialogState(),
     ) : HomeUIState

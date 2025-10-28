@@ -44,7 +44,7 @@ internal fun HomeSuccessState(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
-            currentLocation = uiState.currentLocation,
+            currentLocation = uiState.currentLocation.toLatLng(),
             parkingLots = uiState.parkingLots
         )
         Row(

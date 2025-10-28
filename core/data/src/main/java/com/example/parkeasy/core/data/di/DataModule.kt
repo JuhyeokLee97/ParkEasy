@@ -1,8 +1,10 @@
 package com.example.parkeasy.core.data.di
 
 import com.example.parkeasy.core.data.repository.AuthRepositoryImpl
+import com.example.parkeasy.core.data.repository.FusedLocationRepository
 import com.example.parkeasy.core.data.repository.ParkingLotRepositoryImpl
 import com.example.parkeasy.core.domain.repository.AuthRepository
+import com.example.parkeasy.core.domain.repository.LocationRepository
 import com.example.parkeasy.core.domain.repository.ParkingLotRepository
 import dagger.Binds
 import dagger.Module
@@ -25,4 +27,10 @@ abstract class DataModule {
     abstract fun bindAuthRepository(
         impl: AuthRepositoryImpl
     ): AuthRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindLocationRepository(
+        repository: FusedLocationRepository
+    ): LocationRepository
 }

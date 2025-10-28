@@ -15,7 +15,7 @@ fun HomeScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-//        viewModel.loadNearbyParkingLots(null)
+        viewModel.loadNearbyParkingLots()
     }
 
     HomeScreenContent(
