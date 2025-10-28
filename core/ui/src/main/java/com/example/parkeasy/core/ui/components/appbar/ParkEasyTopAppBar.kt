@@ -19,10 +19,10 @@ fun ParkEasyTopAppBar(
     title: String,
     navigationIconData: IconData = IconData.None,
     navigationIconContentDescription: String? = null,
-    onNavigationClick: () -> Unit,
+    onNavigationClick: () -> Unit = {},
     actionIconData: IconData = IconData.None,
     actionIconContentDescription: String? = null,
-    onActionClick: () -> Unit,
+    onActionClick: () -> Unit = {},
 ) = TopAppBar(
     title = {
         Text(text = title)
