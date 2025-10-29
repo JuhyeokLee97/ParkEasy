@@ -11,6 +11,7 @@ import com.example.parkeasy.feature.home.presentation.component.HomeScreenConten
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
+    onNavigateToAroundParkingLot: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -20,6 +21,7 @@ fun HomeScreen(
 
     HomeScreenContent(
         uiState = uiState,
+        onNavigateToAroundParkingLot = onNavigateToAroundParkingLot,
         onShowServicePreparingDialog = {},
         onHideDialogs = {}
     )

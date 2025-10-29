@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.parkeasy.feature.around.AroundScreen
+import com.example.parkeasy.navigation.ParkEasyNavHost
 import com.example.parkeasy.ui.theme.ParkEasyTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ParkEasyTheme {
-                AroundScreen()
+                ParkEasyNavHost()
 //                MainNavigation()
             }
         }

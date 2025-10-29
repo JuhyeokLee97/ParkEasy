@@ -14,6 +14,7 @@ import com.example.parkeasy.feature.home.model.HomeUIState
 @Composable
 internal fun HomeScreenContent(
     uiState: HomeUIState,
+    onNavigateToAroundParkingLot: () -> Unit,
     onShowServicePreparingDialog: () -> Unit,
     onHideDialogs: () -> Unit
 ) {
@@ -37,7 +38,7 @@ internal fun HomeScreenContent(
                 HomeSuccessState(
                     uiState = uiState,
                     modifier = Modifier.padding(innerPadding),
-                    onNavigateToAroundParkingLot = {},
+                    onNavigateToAroundParkingLot = onNavigateToAroundParkingLot,
                     onFavoriteClick = onShowServicePreparingDialog,
                 )
             }

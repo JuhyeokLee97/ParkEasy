@@ -14,6 +14,7 @@ import com.example.parkeasy.feature.around.model.AroundUiState
 fun AroundScreenContent(
     uiState: AroundUiState,
     onNavigateToDetail: (id: Int) -> Unit,
+    onNavigateToBack: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -21,7 +22,7 @@ fun AroundScreenContent(
                 title = "주변 주차장",
                 navigationIconData = IconData.Resource(painter = painterResource(R.drawable.ic_back)),
                 navigationIconContentDescription = "뒤로 가기",
-                onNavigationClick = {}
+                onNavigationClick = onNavigateToBack
             )
         }
     ) { innerPadding ->

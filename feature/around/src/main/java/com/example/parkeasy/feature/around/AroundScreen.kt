@@ -10,7 +10,9 @@ import com.example.parkeasy.feature.around.presentation.component.AroundScreenCo
 
 @Composable
 fun AroundScreen(
-    viewModel: AroundViewModel = hiltViewModel()
+    viewModel: AroundViewModel = hiltViewModel(),
+    onNavigateToDetail: (id: Int) -> Unit,
+    onNavigateToBack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -20,6 +22,7 @@ fun AroundScreen(
 
     AroundScreenContent(
         uiState = uiState,
-        onNavigateToDetail = {}
+        onNavigateToDetail = onNavigateToDetail,
+        onNavigateToBack = onNavigateToBack,
     )
 }
