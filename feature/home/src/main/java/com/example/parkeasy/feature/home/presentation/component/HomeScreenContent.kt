@@ -16,7 +16,7 @@ internal fun HomeScreenContent(
     uiState: HomeUIState,
     onNavigateToAroundParkingLot: () -> Unit,
     onShowServicePreparingDialog: () -> Unit,
-    onHideDialogs: () -> Unit
+    onDismissDialog: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -40,6 +40,7 @@ internal fun HomeScreenContent(
                     modifier = Modifier.padding(innerPadding),
                     onNavigateToAroundParkingLot = onNavigateToAroundParkingLot,
                     onFavoriteClick = onShowServicePreparingDialog,
+                    onDismissDialog = onDismissDialog,
                 )
             }
             is HomeUIState.Error -> {}

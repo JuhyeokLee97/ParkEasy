@@ -22,7 +22,7 @@ fun HomeScreen(
     HomeScreenContent(
         uiState = uiState,
         onNavigateToAroundParkingLot = onNavigateToAroundParkingLot,
-        onShowServicePreparingDialog = {},
-        onHideDialogs = {}
+        onShowServicePreparingDialog = viewModel::showServicePreparingDialog,
+        onDismissDialog = viewModel::dismissDialog,
     )
 }

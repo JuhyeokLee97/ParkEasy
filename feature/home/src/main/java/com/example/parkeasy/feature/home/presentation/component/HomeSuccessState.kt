@@ -16,8 +16,10 @@ import androidx.compose.ui.Modifier
 import com.example.parkeasy.core.domain.model.ParkingLot
 import com.example.parkeasy.core.ui.components.button.PrimaryButton
 import com.example.parkeasy.core.ui.components.button.SecondaryButton
+import com.example.parkeasy.core.ui.components.dialog.ServicePreparingDialog
 import com.example.parkeasy.core.ui.util.Paddings
 import com.example.parkeasy.feature.home.model.HomeUIState
+import com.example.parkeasy.feature.home.model.ServicePreparingDialogState
 import com.example.parkeasy.feature.home.util.toLatLng
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -34,8 +36,12 @@ internal fun HomeSuccessState(
     uiState: HomeUIState.Success,
     onNavigateToAroundParkingLot: () -> Unit,
     onFavoriteClick: () -> Unit,
+    onDismissDialog: () -> Unit,
 ) {
-    // TODO implement dialog visible/invisible
+    if (uiState.dialogState.servicePreparingDialogState is ServicePreparingDialogState.Visible) {
+        ServicePreparingDialog(onDismiss = onDismissDialog)
+    }
+
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally

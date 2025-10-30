@@ -57,7 +57,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun showServicePreparingDialog() {
+    fun showServicePreparingDialog() {
         _uiState.update { currentState ->
             if (currentState is HomeUIState.Success) {
                 currentState.copy(dialogState = DialogState(ServicePreparingDialogState.Visible))
@@ -68,7 +68,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun dismissDialog() {
+    fun dismissDialog() {
         _uiState.update { currentState ->
             if (currentState is HomeUIState.Success) {
                 currentState.copy(dialogState = DialogState())
