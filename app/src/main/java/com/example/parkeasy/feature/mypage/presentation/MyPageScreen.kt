@@ -47,55 +47,55 @@ val MY_PAGE_SCREEN = "MY_PAGE_SCREEN"
 
 @Composable
 fun MyPageScreen(
-    viewModel: MyPageViewModel = hiltViewModel(),
-    onBackClick: () -> Unit = {},
-    onNavigateToInputCarInfo: () -> Unit = {},
-    onNavigateToInputPaymentInfo: () -> Unit = {},
-    onNavigateToLogin: () -> Unit = {},
+//    viewModel: MyPageViewModel = hiltViewModel(),
+//    onBackClick: () -> Unit = {},
+//    onNavigateToInputCarInfo: () -> Unit = {},
+//    onNavigateToInputPaymentInfo: () -> Unit = {},
+//    onNavigateToLogin: () -> Unit = {},
 ) {
-    val output by viewModel.output.collectAsStateWithLifecycle(
-        initialValue = MyPageOutput(
-            uiState = MyPageOutput.UiState(),
-            sideEffect = null
-        )
-    )
-
-    LaunchedEffect(output.sideEffect) {
-        when (output.sideEffect) {
-            MyPageOutput.SideEffect.NavigateToCarInfo -> onNavigateToInputCarInfo()
-            MyPageOutput.SideEffect.NavigateToPaymentInfo -> onNavigateToInputPaymentInfo()
-            MyPageOutput.SideEffect.NavigateUp -> onBackClick()
-            MyPageOutput.SideEffect.NavigateToLogin -> onNavigateToLogin()
-            else -> {}
-        }
-    }
-
-    ServicePreparingDialog(
-        visible = output.uiState.showServicePreparingDialog,
-        onDismiss = { viewModel.handleInput(MyPageInput.NavigateUp) }
-    )
-
-    Scaffold(
-        topBar = {
-            CommonAppBar.TopAppBar(
-                title = stringResource(R.string.my_page_title),
-                onBackClick = { viewModel.handleInput(MyPageInput.NavigateUp) }
-            )
-        },
-        bottomBar = {
-            ParkEasyBottomBar.OneButton(
-                modifier = Modifier.padding(horizontal = Paddings.large),
-                text = stringResource(R.string.logout),
-                onClick = { viewModel.handleInput(MyPageInput.Logout) }
-            )
-        }
-    ) { innerPadding ->
-        BodyContent(
-            modifier = Modifier.padding(innerPadding),
-            onInputEvent = viewModel::handleInput,
-            userEmail = output.uiState.userEmail
-        )
-    }
+//    val output by viewModel.output.collectAsStateWithLifecycle(
+//        initialValue = MyPageOutput(
+//            uiState = MyPageOutput.UiState(),
+//            sideEffect = null
+//        )
+//    )
+//
+//    LaunchedEffect(output.sideEffect) {
+//        when (output.sideEffect) {
+//            MyPageOutput.SideEffect.NavigateToCarInfo -> onNavigateToInputCarInfo()
+//            MyPageOutput.SideEffect.NavigateToPaymentInfo -> onNavigateToInputPaymentInfo()
+//            MyPageOutput.SideEffect.NavigateUp -> onBackClick()
+//            MyPageOutput.SideEffect.NavigateToLogin -> onNavigateToLogin()
+//            else -> {}
+//        }
+//    }
+//
+//    ServicePreparingDialog(
+//        visible = output.uiState.showServicePreparingDialog,
+//        onDismiss = { viewModel.handleInput(MyPageInput.NavigateUp) }
+//    )
+//
+//    Scaffold(
+//        topBar = {
+//            CommonAppBar.TopAppBar(
+//                title = stringResource(R.string.my_page_title),
+//                onBackClick = { viewModel.handleInput(MyPageInput.NavigateUp) }
+//            )
+//        },
+//        bottomBar = {
+//            ParkEasyBottomBar.OneButton(
+//                modifier = Modifier.padding(horizontal = Paddings.large),
+//                text = stringResource(R.string.logout),
+//                onClick = { viewModel.handleInput(MyPageInput.Logout) }
+//            )
+//        }
+//    ) { innerPadding ->
+//        BodyContent(
+//            modifier = Modifier.padding(innerPadding),
+//            onInputEvent = viewModel::handleInput,
+//            userEmail = output.uiState.userEmail
+//        )
+//    }
 }
 
 @Composable
@@ -214,6 +214,6 @@ fun ServiceCard(
 @Composable
 fun MyPageScreenPreview() {
     ParkEasyTheme {
-        MyPageScreen { }
+        MyPageScreen()
     }
 }

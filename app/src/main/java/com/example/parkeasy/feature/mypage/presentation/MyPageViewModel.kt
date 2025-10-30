@@ -14,73 +14,73 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
-class MyPageViewModel @Inject constructor(
-    private val authRepository: AuthRepository
-) : ViewModel() {
-
-    private val _uiState: MutableStateFlow<MyPageOutput.UiState> = MutableStateFlow(
-        MyPageOutput.UiState(
-            userEmail = authRepository.getCurrentUserEmail()
-        )
-    )
-    private val _sideEffect: MutableSharedFlow<MyPageOutput.SideEffect?> = MutableSharedFlow()
-
-    val output: Flow<MyPageOutput> = combine(
-        _uiState,
-        _sideEffect.onStart { emit(null) }
-    ) { uiState, sideEffect ->
-        MyPageOutput(
-            uiState = uiState,
-            sideEffect = sideEffect
-        )
-    }
-
-    fun handleInput(input: MyPageInput) {
-        when (input) {
-            is MyPageInput.NavigateToCarInfo -> handleNavigateToCarInfo()
-            is MyPageInput.NavigateToPaymentInfo -> handleNavigateToPaymentInfo()
-            is MyPageInput.NavigateToReservationHistory -> handleNavigateToReservationHistory()
-            is MyPageInput.NavigateToSetting -> handleNavigateToSettings()
-            is MyPageInput.Logout -> handleLogout()
-            is MyPageInput.NavigateUp -> handleDismissDialog()
-        }
-    }
-
-    private fun handleNavigateToCarInfo() {
-        viewModelScope.launch {
-            _sideEffect.emit(MyPageOutput.SideEffect.NavigateToCarInfo)
-        }
-    }
-
-    private fun handleNavigateToPaymentInfo() {
-        viewModelScope.launch {
-            _sideEffect.emit(MyPageOutput.SideEffect.NavigateToPaymentInfo)
-        }
-    }
-
-    private fun handleNavigateToReservationHistory() {
-        _uiState.value = _uiState.value.copy(
-            showServicePreparingDialog = true
-        )
-    }
-
-    private fun handleNavigateToSettings() {
-        _uiState.value = _uiState.value.copy(
-            showServicePreparingDialog = true
-        )
-    }
-
-    private fun handleLogout() {
-        viewModelScope.launch {
-            authRepository.signOut()
-            _sideEffect.emit(MyPageOutput.SideEffect.NavigateToLogin)
-        }
-    }
-
-    private fun handleDismissDialog() {
-        _uiState.value = _uiState.value.copy(
-            showServicePreparingDialog = false
-        )
-    }
-}
+//@HiltViewModel
+//class MyPageViewModel @Inject constructor(
+//    private val authRepository: AuthRepository
+//) : ViewModel() {
+//
+//    private val _uiState: MutableStateFlow<MyPageOutput.UiState> = MutableStateFlow(
+//        MyPageOutput.UiState(
+//            userEmail = authRepository.getCurrentUserEmail()
+//        )
+//    )
+//    private val _sideEffect: MutableSharedFlow<MyPageOutput.SideEffect?> = MutableSharedFlow()
+//
+//    val output: Flow<MyPageOutput> = combine(
+//        _uiState,
+//        _sideEffect.onStart { emit(null) }
+//    ) { uiState, sideEffect ->
+//        MyPageOutput(
+//            uiState = uiState,
+//            sideEffect = sideEffect
+//        )
+//    }
+//
+//    fun handleInput(input: MyPageInput) {
+//        when (input) {
+//            is MyPageInput.NavigateToCarInfo -> handleNavigateToCarInfo()
+//            is MyPageInput.NavigateToPaymentInfo -> handleNavigateToPaymentInfo()
+//            is MyPageInput.NavigateToReservationHistory -> handleNavigateToReservationHistory()
+//            is MyPageInput.NavigateToSetting -> handleNavigateToSettings()
+//            is MyPageInput.Logout -> handleLogout()
+//            is MyPageInput.NavigateUp -> handleDismissDialog()
+//        }
+//    }
+//
+//    private fun handleNavigateToCarInfo() {
+//        viewModelScope.launch {
+//            _sideEffect.emit(MyPageOutput.SideEffect.NavigateToCarInfo)
+//        }
+//    }
+//
+//    private fun handleNavigateToPaymentInfo() {
+//        viewModelScope.launch {
+//            _sideEffect.emit(MyPageOutput.SideEffect.NavigateToPaymentInfo)
+//        }
+//    }
+//
+//    private fun handleNavigateToReservationHistory() {
+//        _uiState.value = _uiState.value.copy(
+//            showServicePreparingDialog = true
+//        )
+//    }
+//
+//    private fun handleNavigateToSettings() {
+//        _uiState.value = _uiState.value.copy(
+//            showServicePreparingDialog = true
+//        )
+//    }
+//
+//    private fun handleLogout() {
+//        viewModelScope.launch {
+//            authRepository.signOut()
+//            _sideEffect.emit(MyPageOutput.SideEffect.NavigateToLogin)
+//        }
+//    }
+//
+//    private fun handleDismissDialog() {
+//        _uiState.value = _uiState.value.copy(
+//            showServicePreparingDialog = false
+//        )
+//    }
+//}

@@ -95,20 +95,20 @@ fun MainNavigation() {
         composable(route = MY_PAGE_SCREEN) {
             ParkEasyTheme {
                 MyPageScreen(
-                    onBackClick = {
-                        navController.navigateUp()
-                    },
-                    onNavigateToInputCarInfo = {
-                        navController.navigate(route = INPUT_CAR_INFO_SCREEN)
-                    },
-                    onNavigateToInputPaymentInfo = {
-                        navController.navigate(route = INPUT_PAYMENT_INFO_SCREEN)
-                    },
-                    onNavigateToLogin = {
-                        navController.navigate(route = LOGIN_SCREEN) {
-                            popUpTo(0) { inclusive = true }
-                        }
-                    }
+//                    onBackClick = {
+//                        navController.navigateUp()
+//                    },
+//                    onNavigateToInputCarInfo = {
+//                        navController.navigate(route = INPUT_CAR_INFO_SCREEN)
+//                    },
+//                    onNavigateToInputPaymentInfo = {
+//                        navController.navigate(route = INPUT_PAYMENT_INFO_SCREEN)
+//                    },
+//                    onNavigateToLogin = {
+//                        navController.navigate(route = LOGIN_SCREEN) {
+//                            popUpTo(0) { inclusive = true }
+//                        }
+//                    }
                 )
             }
         }

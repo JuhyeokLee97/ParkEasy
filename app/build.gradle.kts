@@ -60,6 +60,7 @@ android {
 dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:around"))
+    implementation(project(":feature:mypage"))
     implementation(project(":core:domain"))
     implementation(project(":core:data"))
 

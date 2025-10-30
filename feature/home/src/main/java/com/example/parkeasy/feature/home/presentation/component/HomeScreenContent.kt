@@ -15,6 +15,7 @@ import com.example.parkeasy.feature.home.model.HomeUIState
 internal fun HomeScreenContent(
     uiState: HomeUIState,
     onNavigateToAroundParkingLot: () -> Unit,
+    onNavigateToMyPage: () -> Unit,
     onShowServicePreparingDialog: () -> Unit,
     onDismissDialog: () -> Unit
 ) {
@@ -24,7 +25,7 @@ internal fun HomeScreenContent(
                 title = "ParkEasy",
                 actionIconData = IconData.Resource(painter = painterResource(R.drawable.img_profile)),
                 actionIconContentDescription = "프로필 이미지",
-                onActionClick = {}
+                onActionClick = onNavigateToMyPage
             )
         },
         modifier = Modifier.fillMaxWidth()
