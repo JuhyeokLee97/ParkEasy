@@ -1,11 +1,11 @@
-# ParkEasy 🅿️
+# ParkEasy️
 
 > 빠르고 편리한 주차장 예약 서비스
 
 ParkEasy는 사용자의 현재 위치를 기반으로 주변 주차장을 검색하고 예약할 수 있는 Android 애플리케이션입니다.
-JetpackCompose와 Clean Architecture 그리고 Multi-Module 학습을 위해 개발중인 프로젝트입니다. 
+JetpackCompose와 Clean Architecture 그리고 Multi-Module 학습을 위해 개발중인 프로젝트입니다.
 
-## 📋 목차
+## 목차
 
 - [주요 기능](#주요-기능)
 - [기술 스택](#기술-스택)
@@ -13,29 +13,29 @@ JetpackCompose와 Clean Architecture 그리고 Multi-Module 학습을 위해 개
 - [스크린샷](#스크린샷)
 - [아키텍처](#아키텍처)
 
-## 🚀 주요 기능
+## 주요 기능
 
 ### 홈 화면
-- 📍 실시간 위치 기반 지도 표시
-- 🗺️ Google Maps를 활용한 인터랙티브 지도
-- 🅿️ 주변 주차장 마커 표시 및 실시간 정보
-- ⭐ 주변 주차장 찾기 및 즐겨찾기 기능
+- 실시간 위치 기반 지도 표시
+- Google Maps를 활용한 인터랙티브 지도
+- 주변 주차장 마커 표시 및 실시간 정보
+- 주변 주차장 찾기 및 즐겨찾기 기능 (준비중)
 
 ### 주변 주차장
-- 📝 5km 반경 내 주차장 리스트 뷰
-- 💰 시간당 요금 정보 제공
-- 🕐 운영 시간 안내
-- 🚗 실시간 주차 가능 공간 표시
-- 📸 주차장 썸네일 이미지
+- 5km 반경 내 주차장 리스트 뷰
+- 시간당 요금 정보 제공
+- 운영 시간 안내
+- 실시간 주차 가능 공간 표시
+- 주차장 썸네일 이미지
 
-### 마이페이지
-- 👤 사용자 프로필 관리
-- 🚙 차량 등록
-- 💳 결제수단 등록
-- 📜 예약 내역 조회
-- ⚙️ 설정
+### 마이페이지 (준비중)
+- 사용자 프로필 관리
+- 차량 등록
+- 결제수단 등록
+- 예약 내역 조회
+- 설정
 
-## 🛠 기술 스택
+## 기술 스택
 
 ### 핵심 프레임워크
 - **Kotlin** 2.2.20
@@ -66,7 +66,7 @@ JetpackCompose와 Clean Architecture 그리고 Multi-Module 학습을 위해 개
 - **컴파일 SDK**: 36
 - **Java 버전**: 11
 
-## 📂 프로젝트 구조
+## 프로젝트 구조
 
 ```
 ParkEasy/
@@ -96,11 +96,11 @@ ParkEasy/
 
 자세한 아키텍처 설명은 [아키텍처 문서](docs/ARCHITECTURE.md)를 참조하세요.
 
-## 📱 스크린샷
+## 스크린샷
 
-_스크린샷은 추후 추가 예정_
+![ParkEasy 스크린샷](docs/screenshots.png)
 
-## 🏗 아키텍처
+## 아키텍처
 
 ParkEasy는 **Clean Architecture**와 **MVVM 패턴**을 따릅니다.
 
@@ -138,7 +138,7 @@ ParkEasy는 **Clean Architecture**와 **MVVM 패턴**을 따릅니다.
 
 자세한 내용은 [아키텍처 문서](docs/ARCHITECTURE.md)를 참조하세요.
 
-## 📚 추가 문서
+## 추가 문서
 
 - [아키텍처 가이드](docs/ARCHITECTURE.md) - 상세한 아키텍처 설명
 - [모듈 가이드](docs/MODULE_GUIDE.md) - 각 모듈의 역할과 사용법
