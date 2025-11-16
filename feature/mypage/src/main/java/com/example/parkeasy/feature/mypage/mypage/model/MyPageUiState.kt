@@ -1,4 +1,4 @@
-package com.example.parkeasy.feature.mypage.model
+package com.example.parkeasy.feature.mypage.mypage.model
 
 sealed interface MyPageUiState {
     object Loading : MyPageUiState

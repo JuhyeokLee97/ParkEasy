@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.parkeasy.feature.around.AroundScreen
 import com.example.parkeasy.feature.home.HomeScreen
-import com.example.parkeasy.feature.mypage.MyPageScreen
+import com.example.parkeasy.feature.mypage.mypage.MyPageScreen
 
 @Composable
 fun ParkEasyNavHost(

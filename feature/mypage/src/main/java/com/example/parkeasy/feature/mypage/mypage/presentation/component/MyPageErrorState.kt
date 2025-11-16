@@ -1,4 +1,4 @@
-package com.example.parkeasy.feature.mypage.presentation.component
+package com.example.parkeasy.feature.mypage.mypage.presentation.component
 
 import androidx.compose.runtime.Composable
 

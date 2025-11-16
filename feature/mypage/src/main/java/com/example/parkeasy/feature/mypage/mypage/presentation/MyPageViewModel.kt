@@ -1,8 +1,8 @@
-package com.example.parkeasy.feature.mypage.presentation
+package com.example.parkeasy.feature.mypage.mypage.presentation
 
 import androidx.lifecycle.ViewModel
 import com.example.parkeasy.core.domain.repository.AuthRepository
-import com.example.parkeasy.feature.mypage.model.MyPageUiState
+import com.example.parkeasy.feature.mypage.mypage.model.MyPageUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

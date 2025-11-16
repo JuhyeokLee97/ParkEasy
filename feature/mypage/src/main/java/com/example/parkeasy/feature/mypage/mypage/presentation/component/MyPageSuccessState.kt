@@ -1,4 +1,4 @@
-package com.example.parkeasy.feature.mypage.presentation.component
+package com.example.parkeasy.feature.mypage.mypage.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.parkeasy.core.ui.util.Paddings
 import com.example.parkeasy.feature.mypage.R
-import com.example.parkeasy.feature.mypage.model.MyPageUiState
+import com.example.parkeasy.feature.mypage.mypage.model.MyPageUiState
 
 @Composable
 fun MyPageSuccessState(

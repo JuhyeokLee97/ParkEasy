@@ -1,12 +1,12 @@
-package com.example.parkeasy.feature.mypage
+package com.example.parkeasy.feature.mypage.mypage
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.parkeasy.feature.mypage.presentation.MyPageViewModel
-import com.example.parkeasy.feature.mypage.presentation.component.MyPageScreenContent
+import com.example.parkeasy.feature.mypage.mypage.presentation.MyPageViewModel
+import com.example.parkeasy.feature.mypage.mypage.presentation.component.MyPageScreenContent
 
 @Composable
 fun MyPageScreen(

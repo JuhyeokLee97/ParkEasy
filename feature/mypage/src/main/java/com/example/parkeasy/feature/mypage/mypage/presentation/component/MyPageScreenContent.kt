@@ -1,4 +1,4 @@
-package com.example.parkeasy.feature.mypage.presentation.component
+package com.example.parkeasy.feature.mypage.mypage.presentation.component
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -8,7 +8,7 @@ import androidx.compose.ui.res.painterResource
 import com.example.parkeasy.core.ui.components.appbar.ParkEasyTopAppBar
 import com.example.parkeasy.core.ui.model.icon.IconData
 import com.example.parkeasy.feature.mypage.R
-import com.example.parkeasy.feature.mypage.model.MyPageUiState
+import com.example.parkeasy.feature.mypage.mypage.model.MyPageUiState
 
 @Composable
 fun MyPageScreenContent(
