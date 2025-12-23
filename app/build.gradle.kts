@@ -58,12 +58,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:home"))
-    implementation(project(":feature:around"))
-    implementation(project(":feature:mypage"))
-    implementation(project(":core:domain"))
-    implementation(project(":core:data"))
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -72,7 +66,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.navigation.compos)
+    implementation(libs.navigation.compose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
@@ -92,4 +86,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(project(":feature:home"))
+    implementation(project(":feature:around"))
+    implementation(project(":feature:mypage"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:data"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
+    implementation(project(":presentation"))
 }
