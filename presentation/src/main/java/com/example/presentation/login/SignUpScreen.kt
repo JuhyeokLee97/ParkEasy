@@ -16,7 +16,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.presentation.R
+import com.example.presentation.component.ParkEasyOutlinedTextField
 import com.example.presentation.theme.ParkEasyTheme
 
 @Composable
@@ -177,15 +177,12 @@ private fun InputSection(
                 text = "ID",
                 style = MaterialTheme.typography.labelLarge
             )
-            OutlinedTextField(
+            ParkEasyOutlinedTextField(
                 modifier = Modifier
                     .focusRequester(idFocusRequester)
                     .fillMaxWidth(),
                 value = id,
                 onValueChange = onIdChange,
-                label = { Text("이메일") },
-                singleLine = true,
-                maxLines = 1,
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next
                 ),
@@ -193,7 +190,8 @@ private fun InputSection(
                     onNext = {
                         passwordFocusRequester.requestFocus()
                     }
-                )
+                ),
+                label = { Text("이메일") },
             )
 
             Text(
@@ -201,24 +199,22 @@ private fun InputSection(
                 text = "PASSWORD",
                 style = MaterialTheme.typography.labelLarge
             )
-            OutlinedTextField(
+            ParkEasyOutlinedTextField(
                 modifier = Modifier
                     .focusRequester(passwordFocusRequester)
                     .fillMaxWidth(),
                 value = password,
                 onValueChange = onPasswordChange,
-                label = { Text("비밀번호") },
-                singleLine = true,
-                maxLines = 1,
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next
                 ),
                 keyboardActions = KeyboardActions(
                     onNext = {
-                        repeatPasswordFocusRequester.requestFocus()
+                        passwordFocusRequester.requestFocus()
                     }
                 ),
-                visualTransformation = PasswordVisualTransformation()
+                visualTransformation = PasswordVisualTransformation(),
+                label = { Text("비밀번호") },
             )
 
             Text(
@@ -226,15 +222,12 @@ private fun InputSection(
                 text = "REPEAT PASSWORD",
                 style = MaterialTheme.typography.labelLarge
             )
-            OutlinedTextField(
+            ParkEasyOutlinedTextField(
                 modifier = Modifier
                     .focusRequester(repeatPasswordFocusRequester)
                     .fillMaxWidth(),
                 value = repeatPassword,
                 onValueChange = onRepeatPasswordChange,
-                label = { Text("비밀번호 재확인") },
-                singleLine = true,
-                maxLines = 1,
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Done
                 ),
@@ -245,7 +238,8 @@ private fun InputSection(
                         onSignUpClick()
                     }
                 ),
-                visualTransformation = PasswordVisualTransformation()
+                visualTransformation = PasswordVisualTransformation(),
+                label = { Text("비밀번호 재확인") },
             )
 
             Button(

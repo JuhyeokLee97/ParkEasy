@@ -15,11 +15,6 @@ fun LoginNavHost() {
     ) {
         composable(route = LoginRoute.LoginScreen.name) {
             LoginScreen(
-                id = "",
-                password = "",
-                onIdChange = {},
-                onPasswordChange = {},
-                onLoginClick = {},
                 onSignUpClick = {
                     navController.navigate(route = LoginRoute.SignUpScreen.name)
                 },
