@@ -50,6 +50,7 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
     onSignUpClick: () -> Unit,
     onFindIdPasswordClick: () -> Unit,
+    onNavigateToMainActivity: () -> Unit,
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -62,9 +63,12 @@ fun LoginScreen(
             }
 
             is LoginSideEffect.NavigateToHome -> {
+                onNavigateToMainActivity()
             }
 
-            else -> {}
+            else -> {
+                Toast.makeText(context, "ELSE", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

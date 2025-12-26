@@ -6,7 +6,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun LoginNavHost() {
+fun LoginNavHost(
+    navigateToMainActivity: () -> Unit
+) {
     val navController = rememberNavController()
 
     NavHost(
@@ -18,7 +20,8 @@ fun LoginNavHost() {
                 onSignUpClick = {
                     navController.navigate(route = LoginRoute.SignUpScreen.name)
                 },
-                onFindIdPasswordClick = {}
+                onFindIdPasswordClick = {},
+                onNavigateToMainActivity = navigateToMainActivity
             )
         }
         composable(route = LoginRoute.SignUpScreen.name) {
