@@ -1,8 +1,11 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.android)
+    alias(libs.plugins.google.services)
     id("kotlin-kapt")
 }
 
@@ -12,6 +15,16 @@ android {
 
     defaultConfig {
         minSdk = 29
+
+        // secrets.properties에서 API 키 읽기
+        val secretsPropertiesFile = rootProject.file("secrets.properties")
+        val secretsProperties = Properties()
+
+        if (secretsPropertiesFile.exists()) {
+            secretsProperties.load(secretsPropertiesFile.inputStream())
+        }
+
+        manifestPlaceholders["MAPS_API_KEY"] = secretsProperties.getProperty("MAPS_API_KEY", "")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -55,6 +68,7 @@ dependencies {
 
     // Map
     implementation(libs.google.map)
+    implementation(libs.play.services.maps)
 
     // hilt
     implementation(libs.hilt.android)
