@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.hilt.android)
+    alias(libs.plugins.google.services)
     id("kotlin-kapt")
 }
 
@@ -50,6 +51,9 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
+
+    // Google Play Service Location
+    implementation(libs.play.services.location)
 
     implementation(project(":domain"))
 }

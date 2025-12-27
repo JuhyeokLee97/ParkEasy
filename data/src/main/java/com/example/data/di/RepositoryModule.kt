@@ -1,7 +1,9 @@
 package com.example.data.di
 
+import com.example.data.repository.LocationRepositoryImpl
 import com.example.data.repository.ParkingLotMockRepositoryImpl
 import com.example.data.repository.login.AuthRepositoryImpl
+import com.example.domain.repository.LocationRepository
 import com.example.domain.repository.ParkingLotRepository
 import com.example.domain.repository.login.AuthRepository
 import dagger.Binds
@@ -18,4 +20,7 @@ interface RepositoryModule {
 
     @Binds
     fun bindAuthRepository(impl: AuthRepositoryImpl): AuthRepository
+
+    @Binds
+    fun bindLocationRepository(impl: LocationRepositoryImpl): LocationRepository
 }
