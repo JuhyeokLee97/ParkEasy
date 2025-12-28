@@ -1,4 +1,4 @@
-package com.example.domain.usecase
+package com.example.domain.usecase.main.home
 
 import com.example.domain.model.ParkingLot
 import com.example.domain.repository.ParkingLotRepository
@@ -9,6 +9,11 @@ class GetParkingLotsUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(latitude: Double, longitude: Double): Result<List<ParkingLot>> {
-        return parkingLotRepository.getParkingLots(latitude, longitude)
+        return try {
+            val parkingLots = parkingLotRepository.getParkingLots(latitude, longitude)
+            Result.success(parkingLots)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 }

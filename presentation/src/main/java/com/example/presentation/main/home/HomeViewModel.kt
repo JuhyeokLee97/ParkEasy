@@ -1,9 +1,12 @@
 package com.example.presentation.main.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.Location
+import com.example.domain.model.ParkingLot
 import com.example.domain.usecase.main.home.GetCurrentLocationUseCase
+import com.example.domain.usecase.main.home.GetParkingLotsUseCase
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -18,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getCurrentLocationUseCase: GetCurrentLocationUseCase
+    private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
+    private val getParkingLotsUseCase: GetParkingLotsUseCase,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState())
@@ -31,9 +35,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             getCurrentLocationUseCase().fold(
                 onSuccess = { location ->
-                    _uiState.update {
-                        it.copy(currentLocation = location.run { LatLng(latitude, longitude) })
-                    }
+                    updateCurrentLocationState(location)
                 },
                 onFailure = { exception ->
                     val message = when (exception) {
@@ -47,14 +49,38 @@ class HomeViewModel @Inject constructor(
     }
 
     fun useDefaultLocation() {
+        updateCurrentLocationState()
+    }
+
+    private fun updateCurrentLocationState(location: Location = Location.DEFAULT) {
         _uiState.update {
-            it.copy(currentLocation = Location.DEFAULT.run { LatLng(latitude, longitude) })
+            it.copy(currentLocation = location.run { LatLng(latitude, longitude) })
+        }
+        loadParkingLots()
+    }
+
+    private fun loadParkingLots() {
+        viewModelScope.launch {
+            getParkingLotsUseCase(
+                latitude = uiState.value.currentLocation.latitude,
+                longitude = uiState.value.currentLocation.longitude
+            ).fold(
+                onSuccess = { parkingLots ->
+                    _uiState.update {
+                        it.copy(parkingLots = parkingLots)
+                    }
+                },
+                onFailure = {
+                    _sideEffect.emit(HomeSideEffect.Toast("주차장 목록을 가져오는데 실패했습니다."))
+                }
+            )
         }
     }
 }
 
 data class HomeUiState(
     val currentLocation: LatLng = Location.DEFAULT.run { LatLng(latitude, longitude) },
+    val parkingLots: List<ParkingLot> = emptyList(),
 )
 
 sealed interface HomeSideEffect {

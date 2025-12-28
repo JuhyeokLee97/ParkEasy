@@ -23,12 +23,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.domain.model.ParkingLot
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
@@ -107,7 +110,8 @@ private fun HomeScreen(
             currentLocation = LatLng(
                 homeState.currentLocation.latitude,
                 homeState.currentLocation.longitude
-            )
+            ),
+            parkingLots = homeState.parkingLots
         )
     }
 }
@@ -117,6 +121,7 @@ private fun ParkingLotMap(
     modifier: Modifier = Modifier,
     isMyLocationEnabled: Boolean,
     currentLocation: LatLng,
+    parkingLots: List<ParkingLot>,
 ) {
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(currentLocation, 15f)
@@ -140,7 +145,16 @@ private fun ParkingLotMap(
                 myLocationButtonEnabled = isMyLocationEnabled,
                 zoomControlsEnabled = true,
                 zoomGesturesEnabled = true
-            )
+            ),
+            content = {
+                parkingLots.forEach { parkingLot ->
+                    Marker(
+                        state = MarkerState(position = LatLng(parkingLot.latitude, parkingLot.longitude)),
+                        title = parkingLot.name,
+                        snippet = "남은 자리 ${parkingLot.availablePlace}",
+                    )
+                }
+            }
         )
     }
 }

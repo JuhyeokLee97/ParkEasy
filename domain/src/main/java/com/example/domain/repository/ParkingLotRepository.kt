@@ -4,5 +4,5 @@ import com.example.domain.model.ParkingLot
 
 interface ParkingLotRepository {
 
-    suspend fun getParkingLots(latitude: Double, longitude: Double): Result<List<ParkingLot>>
+    suspend fun getParkingLots(latitude: Double, longitude: Double): List<ParkingLot>
 }

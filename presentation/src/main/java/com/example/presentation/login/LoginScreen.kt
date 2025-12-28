@@ -56,7 +56,7 @@ fun LoginScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val sideEffect by viewModel.sideEffect.collectAsStateWithLifecycle(initialValue = null)
 
-    LaunchedEffect(sideEffect) {
+    LaunchedEffect(Unit) {
         when (val effect = sideEffect) {
             is LoginSideEffect.Toast -> {
                 Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
