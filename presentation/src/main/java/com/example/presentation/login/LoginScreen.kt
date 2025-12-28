@@ -39,7 +39,10 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.presentation.R
 import com.example.presentation.component.ParkEasyOutlinedTextField
 import com.example.presentation.theme.ParkEasyTheme
@@ -53,21 +56,21 @@ fun LoginScreen(
     onNavigateToMainActivity: () -> Unit,
 ) {
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val sideEffect by viewModel.sideEffect.collectAsStateWithLifecycle(initialValue = null)
 
-    LaunchedEffect(Unit) {
-        when (val effect = sideEffect) {
-            is LoginSideEffect.Toast -> {
-                Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
-            }
+    LaunchedEffect(viewModel, lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { effect ->
+                when (effect) {
+                    is LoginSideEffect.Toast -> {
+                        Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+                    }
 
-            is LoginSideEffect.NavigateToHome -> {
-                onNavigateToMainActivity()
-            }
-
-            else -> {
-                Toast.makeText(context, "ELSE", Toast.LENGTH_SHORT).show()
+                    is LoginSideEffect.NavigateToHome -> {
+                        onNavigateToMainActivity()
+                    }
+                }
             }
         }
     }

@@ -1,8 +1,9 @@
-package com.example.data.repository.login
+package com.example.data.repository
 
+import com.example.domain.model.UserInfo
 import com.example.domain.model.login.SignUpError
 import com.example.domain.model.login.SignUpException
-import com.example.domain.repository.login.AuthRepository
+import com.example.domain.repository.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -32,6 +33,16 @@ class AuthRepositoryImpl @Inject constructor(
             } ?: Result.failure(Exception("로그인에 실패했습니다."))
         } catch (e: Exception) {
             Result.failure(e)
+        }
+    }
+
+    override suspend fun logout() {
+        firebaseAuth.signOut()
+    }
+
+    override suspend fun getUserInfo(): UserInfo? {
+        return firebaseAuth.currentUser?.run {
+            UserInfo(uid = uid, email = email ?: "")
         }
     }
 }

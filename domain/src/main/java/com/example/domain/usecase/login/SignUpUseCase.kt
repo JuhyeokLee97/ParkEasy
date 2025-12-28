@@ -2,7 +2,7 @@ package com.example.domain.usecase.login
 
 import com.example.domain.model.login.SignUpError
 import com.example.domain.model.login.SignUpException
-import com.example.domain.repository.login.AuthRepository
+import com.example.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class SignUpUseCase @Inject constructor(
