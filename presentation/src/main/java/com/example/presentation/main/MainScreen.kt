@@ -4,15 +4,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -35,39 +37,36 @@ fun MainScreen(modifier: Modifier = Modifier) {
     val currentRoute = navBackStackEntry?.destination?.route?.let { route ->
         MainRoute.entries.find { it.route == route }
     } ?: MainRoute.HOME
-
-    Surface {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    modifier = Modifier.background(color = MaterialTheme.colorScheme.background),
-                    title = { Text(text = stringResource(id = R.string.app_name)) }
-                )
-            },
-            content = { paddingValues ->
-                MainNavHost(
-                    modifier = Modifier.padding(paddingValues),
-                    navController = navController
-                )
-            },
-            bottomBar = {
-                MainBottomBar(
-                    currentRoute = currentRoute,
-                    onItemClick = { newRoute ->
-                        navController.navigate(route = newRoute.route) {
-                            navController.graph.startDestinationRoute?.let {
-                                popUpTo(it) {
-                                    saveState = true
-                                }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                modifier = Modifier.background(color = MaterialTheme.colorScheme.background),
+                title = { Text(text = stringResource(id = R.string.app_name)) }
+            )
+        },
+        content = { paddingValues ->
+            MainNavHost(
+                modifier = Modifier.padding(paddingValues),
+                navController = navController
+            )
+        },
+        bottomBar = {
+            MainBottomBar(
+                currentRoute = currentRoute,
+                onItemClick = { newRoute ->
+                    navController.navigate(route = newRoute.route) {
+                        navController.graph.startDestinationRoute?.let {
+                            popUpTo(it) {
+                                saveState = true
                             }
-                            this.launchSingleTop = true
-                            this.restoreState = true
                         }
+                        this.launchSingleTop = true
+                        this.restoreState = true
                     }
-                )
-            }
-        )
-    }
+                }
+            )
+        }
+    )
 }
 
 @Composable
@@ -76,7 +75,7 @@ private fun MainBottomBar(
     currentRoute: MainRoute = MainRoute.HOME,
     onItemClick: (MainRoute) -> Unit,
 ) {
-    Column {
+    Column(modifier = Modifier.windowInsetsPadding(WindowInsets.navigationBars)) {
         Divider()
         Row(
             modifier = Modifier
@@ -103,9 +102,10 @@ private fun MainBottomBar(
 
 @Preview
 @Composable
-private fun MainScreenPreview() {
+private fun MainBottomBarPreview() {
     ParkEasyTheme {
-        MainScreen()
+        MainBottomBar(
+            onItemClick = { }
+        )
     }
-
 }

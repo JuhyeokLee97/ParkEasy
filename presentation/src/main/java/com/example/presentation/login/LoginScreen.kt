@@ -7,11 +7,15 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -76,6 +80,7 @@ fun LoginScreen(
     }
 
     LoginScreen(
+        modifier = modifier,
         id = uiState.id,
         password = uiState.password,
         isLoginEnabled = uiState.isLoginEnabled,
@@ -89,6 +94,7 @@ fun LoginScreen(
 
 @Composable
 private fun LoginScreen(
+    modifier: Modifier = Modifier,
     id: String = "",
     password: String = "",
     isLoginEnabled: Boolean = false,
@@ -103,6 +109,8 @@ private fun LoginScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .windowInsetsPadding(WindowInsets.systemBars)
+                .imePadding()
                 .pointerInput(Unit) {
                     detectTapGestures {
                         keyboardController?.hide()

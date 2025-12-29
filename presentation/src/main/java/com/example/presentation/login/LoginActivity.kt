@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.presentation.main.MainActivity
 import com.example.presentation.theme.ParkEasyTheme
+import com.example.presentation.util.SyncSystemBars
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,6 +18,10 @@ class LoginActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContent {
             ParkEasyTheme {
+                SyncSystemBars(
+                    syncStatusBar = true,
+                    syncNavigationBar = true
+                )
                 LoginNavHost(
                     navigateToMainActivity = ::navigateToMainActivity
                 )
