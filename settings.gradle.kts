@@ -22,12 +22,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "ParkEasy"
 include(":app")
-include(":core:domain")
-include(":core:data")
-include(":core:ui")
-include(":feature:home")
-include(":feature:around")
-include(":feature:mypage")
 include(":domain")
 include(":data")
 include(":presentation")

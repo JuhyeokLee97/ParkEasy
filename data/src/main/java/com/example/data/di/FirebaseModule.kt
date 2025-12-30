@@ -1,4 +1,4 @@
-package com.example.parkeasy.repository.di
+package com.example.data.di
 
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
@@ -10,6 +10,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object FirebaseModule {
+
     @Provides
     @Singleton
     fun provideFirebaseAuth(): FirebaseAuth {
