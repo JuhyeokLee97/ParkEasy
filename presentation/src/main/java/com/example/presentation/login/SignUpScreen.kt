@@ -56,6 +56,11 @@ fun SignUpScreen(
     val sideEffect by viewModel.sideEffect.collectAsStateWithLifecycle(
         initialValue = null
     )
+    val isSignUpEnabled = remember(uiState.id, uiState.password, uiState.repeatPassword) {
+        uiState.id.isNotEmpty() &&
+        uiState.password.isNotEmpty() &&
+        uiState.repeatPassword.isNotEmpty()
+    }
     LaunchedEffect(sideEffect) {
         when (val effect = sideEffect) {
             is SignUpSideEffect.Toast -> {
@@ -73,7 +78,7 @@ fun SignUpScreen(
         id = uiState.id,
         password = uiState.password,
         repeatPassword = uiState.repeatPassword,
-        signUpEnabled = uiState.isSignUpEnabled,
+        signUpEnabled = isSignUpEnabled,
         onIdChange = viewModel::onIdChange,
         onPasswordChange = viewModel::onPasswordChange,
         onRepeatPasswordChange = viewModel::onRepeatPasswordChange,

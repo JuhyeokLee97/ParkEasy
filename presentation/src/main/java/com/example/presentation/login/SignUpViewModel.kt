@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -24,32 +25,23 @@ class SignUpViewModel @Inject constructor(
     val uiState: StateFlow<SignUpUiState> = _uiState.asStateFlow()
 
     private val _sideEffect: MutableSharedFlow<SignUpSideEffect> = MutableSharedFlow(replay = 0)
-    val sideEffect: SharedFlow<SignUpSideEffect> = _sideEffect
+    val sideEffect: SharedFlow<SignUpSideEffect> = _sideEffect.asSharedFlow()
 
     fun onIdChange(id: String) {
-        updateState(id)
+        _uiState.update { state ->
+            state.copy(id = id)
+        }
     }
 
     fun onPasswordChange(password: String) {
-        updateState(password = password)
+        _uiState.update { state ->
+            state.copy(password = password)
+        }
     }
 
     fun onRepeatPasswordChange(repeatPassword: String) {
-        updateState(repeatPassword = repeatPassword)
-    }
-
-    private fun updateState(
-        id: String = uiState.value.id,
-        password: String = uiState.value.password,
-        repeatPassword: String = uiState.value.repeatPassword,
-    ) {
-        _uiState.update {
-            it.copy(
-                id = id,
-                password = password,
-                repeatPassword = repeatPassword,
-                isSignUpEnabled = id.isNotEmpty() && password.isNotEmpty() && repeatPassword.isNotEmpty()
-            )
+        _uiState.update { state ->
+            state.copy(repeatPassword = repeatPassword)
         }
     }
 
@@ -89,7 +81,6 @@ data class SignUpUiState(
     val id: String = "",
     val password: String = "",
     val repeatPassword: String = "",
-    val isSignUpEnabled: Boolean = false,
 )
 
 sealed interface SignUpSideEffect {

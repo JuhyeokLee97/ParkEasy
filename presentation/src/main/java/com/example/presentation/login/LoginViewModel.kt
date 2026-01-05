@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -22,26 +23,17 @@ class LoginViewModel @Inject constructor(
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
     private val _sideEffect: MutableSharedFlow<LoginSideEffect> = MutableSharedFlow(replay = 0)
-    val sideEffect: SharedFlow<LoginSideEffect> = _sideEffect
+    val sideEffect: SharedFlow<LoginSideEffect> = _sideEffect.asSharedFlow()
 
     fun onIdChange(id: String) {
-        updateState(id = id)
+        _uiState.update { state ->
+            state.copy(id = id)
+        }
     }
 
     fun onPasswordChange(password: String) {
-        updateState(password = password)
-    }
-
-    private fun updateState(
-        id: String = uiState.value.id,
-        password: String = uiState.value.password,
-    ) {
         _uiState.update { state ->
-            state.copy(
-                id = id,
-                password = password,
-                isLoginEnabled = id.isNotEmpty() && password.isNotEmpty()
-            )
+            state.copy(password = password)
         }
     }
 
@@ -52,7 +44,6 @@ class LoginViewModel @Inject constructor(
                 password = uiState.value.password
             ).fold(
                 onSuccess = {
-//                    _sideEffect.emit(LoginSideEffect.Toast("로그인에 성공했습니다."))
                     _sideEffect.emit(LoginSideEffect.NavigateToHome)
                 },
                 onFailure = {
@@ -66,7 +57,6 @@ class LoginViewModel @Inject constructor(
 data class LoginUiState(
     val id: String = "",
     val password: String = "",
-    val isLoginEnabled: Boolean = false
 )
 
 sealed interface LoginSideEffect {

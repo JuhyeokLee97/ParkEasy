@@ -62,6 +62,9 @@ fun LoginScreen(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val isLoginEnabled = remember(uiState.id, uiState.password) {
+        uiState.id.isNotEmpty() && uiState.password.isNotEmpty()
+    }
 
     LaunchedEffect(viewModel, lifecycleOwner) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -83,7 +86,7 @@ fun LoginScreen(
         modifier = modifier,
         id = uiState.id,
         password = uiState.password,
-        isLoginEnabled = uiState.isLoginEnabled,
+        isLoginEnabled = isLoginEnabled,
         onIdChange = viewModel::onIdChange,
         onPasswordChange = viewModel::onPasswordChange,
         onLoginClick = viewModel::onLoginClick,
